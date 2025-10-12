@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="auto">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shortest Hamiltonian Path</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script defer src="/assets/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">Chien-Hao Huang</a>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="切換主題">🌓</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="post markdown-body" id="content"></article>
+    <p><a href="/blog/">← 回到 Blog</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Chien-Hao Huang · Hosted on GitHub Pages</p>
+  </footer>
+
+  <script>
+    async function load() {
+      const resp = await fetch('/posts/shp-intro/content.md');
+      let md = await resp.text();
+
+      // 去掉 front-matter
+      if (md.startsWith('---')) {
+        const end = md.indexOf('\n---');
+        if (end !== -1) md = md.slice(end + 4);
+      }
+      const html = marked.parse(md);
+      const holder = document.getElementById('content');
+      holder.innerHTML = html;
+
+      const h1 = holder.querySelector('h1');
+      if (h1) document.title = h1.textContent + '｜Chien-Hao Huang';
+    }
+    load();
+  </script>
+</body>
+</html>
