@@ -106,3 +106,13 @@ section { margin: 2rem 0; }
 
 
 .muted { color: var(--muted); }
+
+/* Blog card feed */
+.post-feed { display: flex; flex-direction: column; gap: 1.5rem; }
+.post-card { display: grid; grid-template-columns: 1fr 220px; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border); align-items: center; }
+.post-card h3 { margin: 0; }
+.post-card .meta { color: var(--muted); font-size: .9rem; margin: .25rem 0 .5rem; }
+.post-card p.excerpt { margin: .25rem 0; color: var(--text); opacity: .9; }
+.post-thumb { width: 100%; height: 140px; object-fit: cover; border-radius: .6rem; background: var(--card); border: 1px solid var(--border); }
+@media (max-width: 720px) { .post-card { grid-template-columns: 1fr; } }
+
