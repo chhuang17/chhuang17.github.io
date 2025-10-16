@@ -138,6 +138,13 @@ section { margin: 2rem 0; }
   image-rendering: auto;
 }
 
+/* 讓數學公式顏色跟隨主題 */
+mjx-container { color: var(--text); }
+
+/* block 公式超寬時，允許水平滾動 */
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; padding: .25rem 0; }
+
+
 /* 手機直欄 */
 @media (max-width: 720px) { .post-card { grid-template-columns: 1fr; } }
 
