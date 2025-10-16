@@ -129,7 +129,7 @@ section { margin: 2rem 0; }
 mjx-container { color: var(--text); }
 
 mjx-container[display="true"] {
-  display: block !important;   /* ← 必須是 block，否則會全擠在同一列 */
+  display: block;   /* ← 必須是 block，否則會全擠在同一列 */
   text-align: center;
   overflow-x: auto;
   overflow-y: hidden;
