@@ -1,37 +1,43 @@
 (function() {
-const KEY = 'theme-preference'; // 'light' | 'dark' | 'auto'
+  const KEY = 'theme-preference'; // 'light' | 'dark'
 
+  // 如果之前存過 'auto'，這裡把它對應成系統偏好或亮色
+  const migrate = (val) => {
+    if (val === 'auto') {
+      try {
+        return window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark' : 'light';
+      } catch { return 'dark'; }
+    }
+    return val;
+  };
 
-const getStored = () => localStorage.getItem(KEY) || 'auto';
-const setStored = (val) => localStorage.setItem(KEY, val);
+  const getStored = () => migrate(localStorage.getItem(KEY)) || 'dark';
+  const setStored = (val) => localStorage.setItem(KEY, val);
+  
+  const applyTheme = (pref) => {
+    document.documentElement.setAttribute('data-theme', pref);
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.textContent = pref === 'dark' ? '🌙' : '☀️';
+    btn.setAttribute('aria-label', `Theme: ${pref}`);
+    btn.title = `Theme: ${pref}`;
+  };
 
-
-const applyTheme = (pref) => {
-document.documentElement.setAttribute('data-theme', pref);
-const btn = document.getElementById('theme-toggle');
-if (!btn) return;
-const label = { light: '🌞', dark: '🌙', auto: '🌓' }[pref] || '🌓';
-btn.textContent = label;
-btn.setAttribute('aria-label', `Theme: ${pref}`);
-btn.title = `主題：${pref}`;
-};
-
-
-const cycle = (curr) => ({ auto: 'light', light: 'dark', dark: 'auto' }[curr] || 'auto');
-
-
-document.addEventListener('DOMContentLoaded', () => {
-let pref = getStored();
-applyTheme(pref);
-
-
-const btn = document.getElementById('theme-toggle');
-if (btn) {
-btn.addEventListener('click', () => {
-pref = cycle(pref);
-setStored(pref);
-applyTheme(pref);
-});
-}
-});
+  const toggle = (curr) => (curr === 'light' ? 'dark' : 'light');
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    let pref = getStored();
+    applyTheme(pref);
+  
+    const btn = document.getElementById('theme-toggle');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        pref = toggle(pref);
+        setStored(pref);
+        applyTheme(pref);
+      });
+    }
+  });
 })();
