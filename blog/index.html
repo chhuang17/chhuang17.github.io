@@ -70,21 +70,27 @@
         const p = await loadPost(slug);
         if (!p) continue;
 
-        const dateStr = p.date ? `<div class="meta">${p.date}</div>` : '';
-        const imgHtml = p.img
-          ? `<a href="/posts/${p.slug}/" aria-label="${p.title}"><img class="post-thumb" src="${p.img}" alt="${p.title}"></a>`
-          : '<div></div>';
+        // 整張卡片可點進文章
+        const card = document.createElement('article');
+        card.className = 'post-card';
+        card.role = 'link';
+        card.tabIndex = 0;
+        card.onclick = () => location.href = `/posts/${p.slug}/`;
+        card.onkeypress = (e) => (e.key === 'Enter') && card.click();
 
-        feed.insertAdjacentHTML('beforeend', `
-          <article class="post-card">
-            <div>
-              <a href="/posts/${p.slug}/" class="post-title-link"><h3>${p.title}</h3></a>
-              ${dateStr}
-              <p class="excerpt">${p.excerpt}</p>
-            </div>
-            ${imgHtml}
-          </article>
-        `);
+        card.innerHTML = `
+          <div class="post-content">
+            <h3 class="post-title">${p.title}</h3>
+            ${p.date ? `<div class="meta">${p.date}</div>` : ''}
+            ${p.excerpt ? `<p class="excerpt">${p.excerpt}</p>` : ''}
+          </div>
+          ${
+            p.cover
+              ? `<div class="thumb-wrap"><img class="post-thumb" src="${p.cover}" alt="${p.title}"></div>`
+              : `<div></div>`
+          }
+        `;
+        feed.appendChild(card);
       }
     })();
   </script>
