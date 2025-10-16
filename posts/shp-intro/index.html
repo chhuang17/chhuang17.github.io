@@ -13,6 +13,7 @@
   <script>
     window.MathJax = {
       tex: {
+        packages: {'[+]': ['ams']},  // 啟用 AMS 環境（align、aligned等）
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$','$$'], ['\\[','\\]']],
         processEscapes: true,
