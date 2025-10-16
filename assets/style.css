@@ -128,8 +128,13 @@ section { margin: 2rem 0; }
 /* 讓數學公式顏色跟隨主題 */
 mjx-container { color: var(--text); }
 
-/* block 公式超寬時，允許水平滾動 */
-mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; padding: .25rem 0; }
+mjx-container[display="true"] {
+  display: block !important;   /* ← 必須是 block，否則會全擠在同一列 */
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: .25rem 0;
+}
 
 
 /* === Dark mode：讓透明 PNG 清楚可見 === */
