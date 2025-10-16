@@ -69,6 +69,8 @@
       const date    = meta.date ? fmtDate(meta.date) : "";
       const excerpt = meta.excerpt || ""; // ✅ 以你寫的 excerpt 為準，不抓內文
       const cover   = meta.cover || mdImg || "";
+      const coverBackdrop = (meta.cover_backdrop ?? 'true').toString().toLowerCase();
+      const noBackdrop = (coverBackdrop === 'false' || coverBackdrop === '0');
 
       return { slug, title, date, excerpt, cover };
     }
@@ -95,7 +97,9 @@
           </div>
           ${
             p.cover
-              ? `<div class="thumb-wrap"><img class="post-thumb" src="${p.cover}" alt="${p.title}"></div>`
+              ? `<div class="thumb-wrap ${p.noBackdrop}">
+                  <img class="post-thumb" src="${p.cover}" alt="${p.title}">
+                </div>`
               : `<div></div>`
           }
         `;
