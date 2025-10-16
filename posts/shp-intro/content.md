@@ -35,11 +35,11 @@ __旅行推銷員問題 (The Traveling Salesman/Salesperson Problem, TSP)__
 <!-- latex 中的 & 表對齊的位置 -->
 $$
 \begin{aligned}
-    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\
-    \text{s.t.}\;& \sum_{i}x_{ij} = 1\\
-    &\sum_{j}x_{ij} = 1\\
-    &u_{i} - u_{j} + nx_{ij} \leq n - 1\\
-    &x_{ij} \in {\{0, 1\}},\ \forall i,j = 1,2,\cdots n\\
+    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\\\
+    \text{s.t.}\;& \sum_{i}x_{ij} = 1 \\\\
+    &\sum_{j}x_{ij} = 1 \\\\
+    &u_{i} - u_{j} + nx_{ij} \leq n - 1 \\\\
+    &x_{ij} \in {\{0, 1\}},\ \forall i,j = 1,2,\cdots n \\\\
     &u_{i}, u_{j} \geq 0,\ \forall i,j = 1,2,\cdots n,\ \forall i \neq j
 \end{aligned}
 $$
@@ -53,13 +53,13 @@ $$
 <!-- latex 中的 & 表對齊的位置 -->
 $$
 \begin{aligned}
-    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\
-    \text{s.t.}\;& \sum_{i}x_{ij} = 1\\
-    &\sum_{j}x_{ij} = 1\\
-    &\sum_{i}x_{i1} = 0\\
-    &\sum_{j}x_{nj} = 0\\
-    &u_{i} - u_{j} + nx_{ij} \leq n - 1\\
-    &x_{ij} \in {\{0, 1\}},\ \forall i,j = 1,2,\cdots n\\
+    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\\\
+    \text{s.t.}\;& \sum_{i}x_{ij} = 1 \\\\
+    &\sum_{j}x_{ij} = 1 \\\\
+    &\sum_{i}x_{i1} = 0 \\\\
+    &\sum_{j}x_{nj} = 0 \\\\
+    &u_{i} - u_{j} + nx_{ij} \leq n - 1 \\\\
+    &x_{ij} \in {\{0, 1\}},\ \forall i,j = 1,2,\cdots n \\\\
     &u_{i}, u_{j} \geq 0,\ \forall i,j = 1,2,\cdots n,\ \forall i \neq j
 \end{aligned}
 $$
@@ -75,11 +75,11 @@ $$
 我們以 SHPP 為例，以下為不加上消除子迴圈限制式的數學規劃模式：
 $$
 \begin{aligned}
-    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\
-    \text{s.t.}\;& \sum_{i}x_{ij} = 1\\
-    &\sum_{j}x_{ij} = 1\\
-    &\sum_{i}x_{i1} = 0\\
-    &\sum_{j}x_{nj} = 0\\
+    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\\\
+    \text{s.t.}\;& \sum_{i}x_{ij} = 1 \\\\
+    &\sum_{j}x_{ij} = 1 \\\\
+    &\sum_{i}x_{i1} = 0 \\\\
+    &\sum_{j}x_{nj} = 0 \\\\
     &\ \forall i,j = 1,2,\cdots n
 \end{aligned}
 $$
@@ -112,8 +112,8 @@ $$
 在 TSP 問題中，需要再加上以下三條限制式，也就是所謂的 MTZ 限制式：
 $$
 \begin{aligned}
-    &u_{1} = 1\\
-    &2 \leq u_{i} \leq n \\
+    &u_{1} = 1 \\\\
+    &2 \leq u_{i} \leq n \\\\
     &u_{i} - u_{j} + nx_{ij} \leq n - 1
 \end{aligned}
 $$
@@ -136,16 +136,16 @@ $$
 由上圖之結果，最佳化求解後之路徑為 $1-8-6-7-10-9-2-3-4-5-11$，因此：
 $$
 \begin{aligned}
-&u_{1}=1, &x_{18}=1 \; \\
-&u_{2}=8, &x_{86}=1 \; \\
-&u_{3}=6, &x_{67}=1 \; \\
-&u_{4}=7, &x_{710}=1 \; \\
-&u_{5}=10, &x_{109}=1 \; \\
-&u_{6}=9, &x_{92}=1 \; \\
-&u_{7}=2, &x_{23}=1 \; \\
-&u_{8}=3, &x_{34}=1 \; \\
-&u_{9}=4, &x_{45}=1 \; \\
-&u_{10}=5, &x_{511}=1 \; \\
+&u_{1}=1, &x_{18}=1 \; \\\\
+&u_{2}=8, &x_{86}=1 \; \\\\
+&u_{3}=6, &x_{67}=1 \; \\\\
+&u_{4}=7, &x_{710}=1 \; \\\\
+&u_{5}=10, &x_{109}=1 \; \\\\
+&u_{6}=9, &x_{92}=1 \; \\\\
+&u_{7}=2, &x_{23}=1 \; \\\\
+&u_{8}=3, &x_{34}=1 \; \\\\
+&u_{9}=4, &x_{45}=1 \; \\\\
+&u_{10}=5, &x_{511}=1 \; \\\\
 &u_{11}=11
 \end{aligned}
 $$
