@@ -107,12 +107,44 @@ section { margin: 2rem 0; }
 
 .muted { color: var(--muted); }
 
-/* Blog card feed */
+/* Blog card feed (Medium-like) */
 .post-feed { display: flex; flex-direction: column; gap: 1.5rem; }
-.post-card { display: grid; grid-template-columns: 1fr 220px; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border); align-items: center; }
-.post-card h3 { margin: 0; }
-.post-card .meta { color: var(--muted); font-size: .9rem; margin: .25rem 0 .5rem; }
-.post-card p.excerpt { margin: .25rem 0; color: var(--text); opacity: .9; }
-.post-thumb { width: 100%; height: 140px; object-fit: cover; border-radius: .6rem; background: var(--card); border: 1px solid var(--border); }
+.post-card {
+  display: grid; grid-template-columns: 1fr 240px; gap: 1.25rem;
+  padding: 1.25rem 0; border-bottom: 1px solid var(--border);
+  align-items: center; cursor: pointer; /* ✅ 整卡可點，顯示手指游標 */
+}
+.post-card:hover .post-title { text-decoration: underline; } /* 輕微回饋 */
+.post-content { min-width: 0; } /* 防止標題溢出 */
+.post-title {
+  margin: 0; color: var(--text); /* ✅ 非連結顏色，隨亮暗模式 */
+  font-weight: 700; line-height: 1.35;
+}
+.meta { color: var(--muted); font-size: .9rem; margin: .35rem 0 .5rem; }
+.excerpt { margin: .25rem 0 0; color: var(--text); opacity: .92; }
+
+/* 縮圖容器：給透明 PNG 一個可靠的底色與邊框，在 dark mode 也清楚 */
+.thumb-wrap {
+  border: 1px solid var(--border);
+  border-radius: .75rem;
+  overflow: hidden;
+  background: var(--card);        /* ✅ 亮暗模式自帶對比底色 */
+  box-shadow: 0 1px 0 rgba(0,0,0,.05);
+}
+.post-thumb {
+  display: block;
+  width: 100%; height: 150px; object-fit: cover;
+  /* 對透明 PNG 進一步提亮邊緣與細節（可視需要保留或拿掉） */
+  image-rendering: auto;
+}
+
+/* 讓數學公式顏色跟隨主題 */
+mjx-container { color: var(--text); }
+
+/* block 公式超寬時，允許水平滾動 */
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; padding: .25rem 0; }
+
+
+/* 手機直欄 */
 @media (max-width: 720px) { .post-card { grid-template-columns: 1fr; } }
 

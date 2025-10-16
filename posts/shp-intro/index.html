@@ -8,6 +8,23 @@
   <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  
+  <!-- MathJax 設定：支援 $...$ / $$...$$ / \(...\) / \[...\] -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code'] // 不處理程式碼區塊
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -42,6 +59,11 @@
       const html = marked.parse(md);
       const holder = document.getElementById('content');
       holder.innerHTML = html;
+
+      // 解析數學
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        await MathJax.typesetPromise([holder]);
+      }
 
       const h1 = holder.querySelector('h1');
       if (h1) document.title = h1.textContent + '｜Chien-Hao Huang';
