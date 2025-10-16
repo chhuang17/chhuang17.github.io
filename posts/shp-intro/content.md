@@ -86,7 +86,7 @@ $$
 
 我們可以對這個模式求解，同樣也能求得一組最佳解，接著將結果繪製如下：
 
-![](https://hackmd.io/_uploads/SyeqgMrAta.png)
+![](/posts/shp-intro/subtour-example.png)
 <br>
 
 
@@ -130,7 +130,7 @@ $$
         
 上面的說明有點抽象，舉個實際的例子可能比較好懂。假設經過最佳化求解之漢米爾頓路徑如下，圓圈內的數字表示編號：
 <br>
-![](https://hackmd.io/_uploads/H1cT2ERFa.png)
+![](/posts/shp-intro/shp-solution.png)
 <br>
 
 由上圖之結果，最佳化求解後之路徑為 $1-8-6-7-10-9-2-3-4-5-11$，因此：
