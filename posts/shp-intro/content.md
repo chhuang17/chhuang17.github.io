@@ -1,3 +1,10 @@
+---
+title: Shortest Hamiltonian Path
+date: 2025-10-08
+excerpt: This article demonstrates the mathematical model of the Shortest Hamiltonian Problem.
+cover: /posts/shp-Intro/tsp.png   # 可選；若省略則抓文內第一張圖
+---
+
 最短漢米爾頓路徑問題 (I) - 數學模式說明
 ===
 
