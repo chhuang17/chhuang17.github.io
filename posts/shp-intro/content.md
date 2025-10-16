@@ -34,14 +34,14 @@ __旅行推銷員問題 (The Traveling Salesman/Salesperson Problem, TSP)__
 故 TSP 的數學規劃模式如下：
 <!-- latex 中的 & 表對齊的位置 -->
 $$
-\begin{align}
-    \min \space\space &\sum_{i}\sum_{j}c_{ij}x_{ij} \nonumber \\
-    \text{s.t.}\space\space &\sum_{i}x_{ij} = 1\\
+\begin{aligned}
+    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\
+    \text{s.t.}\;& \sum_{i}x_{ij} = 1\\
     &\sum_{j}x_{ij} = 1\\
     &u_{i} - u_{j} + nx_{ij} \leq n - 1\\
-    &x_{ij} \in {\{0, 1\}}, \space\space\forall i,j = 1,2,\cdots n \nonumber\\
-    &u_{i}, u_{j} \geq 0, \space\space\forall i,j = 1,2,\cdots n, \space\space\forall i \neq j \nonumber
-\end{align}
+    &x_{ij} \in {\{0, 1\}},\ \forall i,j = 1,2,\cdots n\\
+    &u_{i}, u_{j} \geq 0,\ \forall i,j = 1,2,\cdots n,\ \forall i \neq j
+\end{aligned}
 $$
 
 而在 __最短漢米爾頓路徑問題 (The Shortest Hamiltonian Path Problem, SHPP)__，我們需要將 TSP 的限制式 1 跟限制式 2 進行調整：
@@ -52,16 +52,16 @@ $$
 故 SHPP 的數學規劃模式如下，相較於 TSP，多加上了兩條限制式：
 <!-- latex 中的 & 表對齊的位置 -->
 $$
-\begin{align}
-    \min \space\space &\sum_{i}\sum_{j}c_{ij}x_{ij} \nonumber \\
-    \text{s.t.}\space\space &\sum_{i}x_{ij} = 1\\
+\begin{aligned}
+    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\
+    \text{s.t.}\;& \sum_{i}x_{ij} = 1\\
     &\sum_{j}x_{ij} = 1\\
     &\sum_{i}x_{i1} = 0\\
     &\sum_{j}x_{nj} = 0\\
     &u_{i} - u_{j} + nx_{ij} \leq n - 1\\
-    &x_{ij} \in {\{0, 1\}}, \space\space\forall i,j = 1,2,\cdots n \nonumber\\
-    &u_{i}, u_{j} \geq 0, \space\space\forall i,j = 1,2,\cdots n, \space\space\forall i \neq j \nonumber
-\end{align}
+    &x_{ij} \in {\{0, 1\}},\ \forall i,j = 1,2,\cdots n\\
+    &u_{i}, u_{j} \geq 0,\ \forall i,j = 1,2,\cdots n,\ \forall i \neq j
+\end{aligned}
 $$
 
 <!-- 以上這些東西，可以直接利用 [Google OR-Tools 提供的範例程式碼](https://colab.research.google.com/github/google/or-tools/blob/stable/examples/notebook/constraint_solver/vrp_starts_ends.ipynb?hl=zh-tw) 並稍作修改，即可求解漢米爾頓路徑 [(說明點此)](https://developers.google.com/optimization/routing/routing_tasks?hl=zh-tw#setting_start_and_end_locations_for_routes)。
@@ -74,14 +74,14 @@ $$
 
 我們以 SHPP 為例，以下為不加上消除子迴圈限制式的數學規劃模式：
 $$
-\begin{align}
-    \min \space\space &\sum_{i}\sum_{j}c_{ij}x_{ij} \nonumber \\
-    \text{s.t.}\space\space &\sum_{i}x_{ij} = 1\\
+\begin{aligned}
+    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\
+    \text{s.t.}\;& \sum_{i}x_{ij} = 1\\
     &\sum_{j}x_{ij} = 1\\
     &\sum_{i}x_{i1} = 0\\
     &\sum_{j}x_{nj} = 0\\
-    &\space\forall i,j = 1,2,\cdots n
-\end{align}
+    &\ \forall i,j = 1,2,\cdots n
+\end{aligned}
 $$
 
 我們可以對這個模式求解，同樣也能求得一組最佳解，接著將結果繪製如下：
@@ -107,28 +107,26 @@ $$
 <!-- https://youtu.be/-m7ASCB0a8E?si=fumzy2GTaNJ3k4EF -->
 
 ### MTZ 限制式 (Miller-Tucker-Zemlin Constraints)
-由 Miller, Tucker, Zemlin 三位學者共同提出，在此限制式中，再引入決策變數 $u_{i}$，$\forall i = 1, 2, \cdots n$，$u_{i} \geq 0$ 且 $\space u_{i} \in \mathcal{N}$。這個 __$u_{i}$ 是次序的概念，表示點 $i$ 是路徑中的第幾個被訪問的點__，舉例來說，$u_{2}=8$ 表示點 2 是路徑中第 8 個被訪問的點；$u_{5}=3$ 表示點 5 是路徑中第 3 個被訪問的點。
+由 Miller, Tucker, Zemlin 三位學者共同提出，在此限制式中，再引入決策變數 $u_{i}$，$\forall i = 1, 2, \cdots n$，$u_{i} \geq 0$ 且 $\space u_{i} \in \mathcal{N}$。這個 **$u_{i}$ 是次序的概念，表示點 $i$ 是路徑中的第幾個被訪問的點**，舉例來說，$u_{2}=8$ 表示點 2 是路徑中第 8 個被訪問的點；$u_{5}=3$ 表示點 5 是路徑中第 3 個被訪問的點。
 
 在 TSP 問題中，需要再加上以下三條限制式，也就是所謂的 MTZ 限制式：
 $$
-\begin{align}
+\begin{aligned}
     &u_{1} = 1\\
     &2 \leq u_{i} \leq n \\
     &u_{i} - u_{j} + nx_{ij} \leq n - 1
-\end{align}
+\end{aligned}
 $$
 
 - $u_{1} = 1$ 表示點 1 是第 1 個被訪問的點，換句話說，點 1 就是起點。
 - $2 \leq u_{i} \leq n$ 是用來界定 $u_{i}$ 的範圍，$u_{i}$ 從 2 開始的原因是因為，我們已經處理完起點的部分了 (即 $u_{1} = 1$)。
-- $u_{i} - u_{j} + nx_{ij} \leq n - 1$：
-<br>
-    - 先將原式移項得 $u_{i} - u_{j} + 1 \leq n (1 - x_{ij})$，方便後續說明。
-    - 已知：$x_{ij} \in \{0,1\}$，若 $x_{ij}=1$，表示點 $i$ 到點 $j$ 有一條可行路徑，且順序為先經過點 $i$，再經過點 $j$，也就是 $u_{i} + 1 = u_{j}$。
-    - __Case 1: 點 $i$ 到點 $j$ 存在一條可行路徑__，代入限制式得：$$u_{i} - (u_{i}+1) + 1 \leq n (1-1) \Rightarrow 0 \leq 0$$
-    - __Case 2: 點 $i$ 到點 $j$ 之間沒有可行路徑__，代入限制式得：$$u_{i} - u_{j} + 1 \leq n (1-0) \Rightarrow u_{i} - u_{j} + 1 \leq n$$
-    - __Case 2__，又可以分成兩種情況：
-        - $u_{i} < u_{j}$，則 LHS 必 $\leq 0$，又 $0 \leq n$，故限制式恆成立。
-        - $u_{i} > u_{j}$，則 LHS 必 $\leq n-1$，又 $n-1 \leq n$，故限制式恆成立。
+- $u_{i} - u_{j} + nx_{ij} \leq n - 1$: 
+  - 先將原式移項得 $u_{i} - u_{j} + 1 \leq n (1 - x_{ij})$，方便後續說明。
+  - 已知：$x_{ij} \in \{0,1\}$，若 $x_{ij}=1$，表示點 $i$ 到點 $j$ 有一條可行路徑，且順序為先經過點 $i$，再經過點 $j$，也就是 $u_{i} + 1 = u_{j}$。
+  - **Case 1: 點 $i$ 到點 $j$ 存在一條可行路徑**，代入限制式得：$$u_{i} - (u_{i}+1) + 1 \leq n (1-1) \Rightarrow 0 \leq 0$$
+  - **Case 2: 點 $i$ 到點 $j$ 之間沒有可行路徑**，代入限制式得：$$u_{i} - u_{j} + 1 \leq n (1-0) \Rightarrow u_{i} - u_{j} + 1 \leq n$$
+    - $u_{i} < u_{j}$，則 LHS 必 $\leq 0$，又 $0 \leq n$，故限制式恆成立。
+    - $u_{i} > u_{j}$，則 LHS 必 $\leq n-1$，又 $n-1 \leq n$，故限制式恆成立。
         
 上面的說明有點抽象，舉個實際的例子可能比較好懂。假設經過最佳化求解之漢米爾頓路徑如下，圓圈內的數字表示編號：
 <br>
@@ -137,19 +135,19 @@ $$
 
 由上圖之結果，最佳化求解後之路徑為 $1-8-6-7-10-9-2-3-4-5-11$，因此：
 $$
-\begin{align}
-&u_{1}=1, &x_{18}=1 \space;\\
-&u_{2}=8, &x_{86}=1 \space;\\
-&u_{3}=6, &x_{67}=1 \space;\\
-&u_{4}=7, &x_{710}=1 \space;\\
-&u_{5}=10, &x_{109}=1 \space;\\
-&u_{6}=9, &x_{92}=1 \space;\\
-&u_{7}=2, &x_{23}=1 \space;\\
-&u_{8}=3, &x_{34}=1 \space;\\
-&u_{9}=4, &x_{45}=1 \space;\\
-&u_{10}=5, &x_{511}=1 \space;\\
+\begin{aligned}
+&u_{1}=1, &x_{18}=1 \; \\
+&u_{2}=8, &x_{86}=1 \; \\
+&u_{3}=6, &x_{67}=1 \; \\
+&u_{4}=7, &x_{710}=1 \; \\
+&u_{5}=10, &x_{109}=1 \; \\
+&u_{6}=9, &x_{92}=1 \; \\
+&u_{7}=2, &x_{23}=1 \; \\
+&u_{8}=3, &x_{34}=1 \; \\
+&u_{9}=4, &x_{45}=1 \; \\
+&u_{10}=5, &x_{511}=1 \; \\
 &u_{11}=11
-\end{align}
+\end{aligned}
 $$
 
 將以上的結果代入限制式，讀者可以嘗試看看，在違反限制式的情況下，就會產生子迴圈。
