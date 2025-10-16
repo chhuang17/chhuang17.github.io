@@ -3,6 +3,7 @@ title: Shortest Hamiltonian Path
 date: 2025-10-08
 excerpt: This article demonstrates the mathematical model of the Shortest Hamiltonian Problem.
 cover: /posts/shp-intro/tsp.png
+cover_backdrop: false
 ---
 
 最短漢米爾頓路徑問題 (I) - 數學模式說明
@@ -11,6 +12,9 @@ cover: /posts/shp-intro/tsp.png
 ##### tags: `TSP` `Hamiltonian Path` `Operations Research`
 
 ![TSP 示意圖](/posts/shp-intro/tsp.png)
+
+<!-- 指定不要背板 -->
+<!-- <img src="/posts/shp-intro/tsp.png" alt="Shortest Hamiltonian Path" class="no-backdrop"> -->
 
 ## 前言
 傳統的 __旅行推銷員問題 (The Traveling Salesman/Salesperson Problem)__ 是指從某一起點出發，經過所有節點後，最後再回到起點，也就是起訖點一致。但如果今天給定起點跟終點，且起訖點不同的情況下，我們有沒有辦法找到一條同樣可以經過所有節點的路徑呢？如果說給定一個起點跟一個終點，真的存在一條可以經過所有節點的路徑，這條路徑就稱之為 __漢米爾頓路徑 (Hamiltonian Path)__。

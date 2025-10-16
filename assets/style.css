@@ -145,6 +145,46 @@ mjx-container { color: var(--text); }
 mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; padding: .25rem 0; }
 
 
+/* === Dark mode：讓透明 PNG 清楚可見 === */
+
+/* Blog 列表縮圖的容器（右側小圖） */
+html[data-theme="dark"] .thumb-wrap {
+  background: #e5e7eb;           /* 淺灰背板，黑線條在深色主題也清楚 */
+  border-color: #374151;          /* 稍深的邊框 */
+}
+
+/* 如果 Blog 列表縮圖不想加背板，在 HTML 用 class="no-backdrop" */
+html[data-theme="dark"] .thumb-wrap.no-backdrop {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+/* 文章頁內文圖片（從 Markdown 轉出） */
+.markdown-body img {
+  max-width: 100%;
+  border-radius: .6rem;
+}
+
+/* 只有在 dark mode 才加背板與細邊框、內距，避免亮色主題看起來框太重 */
+html[data-theme="dark"] .markdown-body img {
+  background: #e5e7eb;
+  border: 1px solid #374151;
+  padding: 6px;
+}
+
+/* 可選：對極淡線稿再加一點陰影邊緣，讓線更浮出（看需求打開） */
+/* html[data-theme="dark"] .markdown-body img { filter: drop-shadow(0 0 1px rgba(0,0,0,.35)); } */
+
+/* 如果某個圖片不想加背板，在 Markdown 用 <img class="no-backdrop"> */
+html[data-theme="dark"] .markdown-body img.no-backdrop {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+
+
 /* 手機直欄 */
 @media (max-width: 720px) { .post-card { grid-template-columns: 1fr; } }
 
