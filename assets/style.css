@@ -14,6 +14,11 @@
 --read-content: 90ch;
 --list-gap-y: clamp(1.25rem, 3vh, 2rem);
 --list-gap-x: clamp(1rem, 2vw, 1.5rem);
+
+--font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+--font-cjk: "Noto Sans TC", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "Source Han Sans TC";
+/* 2) 文章正文：英文字 → 襯線（Medium 風格），中文字 → 黑體（Noto Sans TC） */
+--font-serif-en: "Source Serif 4", Georgia, "Times New Roman";
 }
 
 
@@ -30,10 +35,43 @@ html[data-theme="dark"] {
 * { box-sizing: border-box; }
 body {
 margin: 0;
-font-family: 'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+font-family:
+  var(--font-ui),
+  var(--font-cjk),
+  "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji",
+  sans-serif;
 background: var(--bg);
 color: var(--text);
 line-height: 1.7;
+
+/* UI 與導覽（英文字仍用你現在的 UI 無襯線；中文字自動用黑體） */
+.brand, .nav, .btn, button,
+h1, h2, h3, h4, h5, h6 {
+  font-family:
+    var(--font-ui),
+    var(--font-cjk),
+    sans-serif;
+}
+
+/* ===== 文章排版（Medium-like） ============================== */
+/* 文章內文：英文字用襯線（更像 Medium），中文字 fallback 到黑體 */
+.markdown-body {
+  font-family:
+    var(--font-serif-en),
+    var(--font-cjk),
+    serif;
+}
+
+/* 文章內的標題：維持 UI 無襯線（更有層次），中文字仍為黑體 */
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  font-family:
+    var(--font-ui),
+    var(--font-cjk),
+    sans-serif;
+}
 
 /* Sticky footer 佈局 */
 display: flex;
@@ -101,8 +139,8 @@ flex-direction: column;
 
 
 .brand { font-weight: 700; text-decoration: none; color: var(--text); }
-.nav { display: flex; gap: 1rem; align-items: center; }
-.nav a { color: var(--text); text-decoration: none; opacity: 0.9; }
+.nav { display: flex; gap: clamp(1rem, 1.8vw, 2.25rem); align-items: center; }
+.nav a { color: var(--text); text-decoration: none; opacity: 0.9; font-weight: 500; letter-spacing: -0.01em; padding-inline: .15rem; }
 .nav a[aria-current="page"] { color: var(--brand); font-weight: 600; }
 .nav a:hover { color: var(--brand); }
 .theme-toggle { background: transparent; border: 1px solid var(--border); border-radius: 999px; padding: .4rem .6rem; cursor: pointer; color: var(--text); }
@@ -178,6 +216,12 @@ section { margin: 2rem 0; }
   color: var(--text);
   opacity: .92;
   line-height: 1.75;
+  font-family:
+    var(--font-serif-en),
+    var(--font-cjk),
+    serif;
+  font-weight: 400;
+  line-height: 1.8;
 }
 .post-card:hover .post-title { text-decoration: underline; } /* 輕微回饋 */
 .meta { color: var(--muted); font-size: .9rem; margin: .35rem 0 .5rem; }
@@ -427,7 +471,9 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   margin-bottom: .35rem;
 }
 .home-role {
-  font-weight: 700;
+  font-family: var(--font-sans-ui, "Inter", 'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif);
+  font-weight: 600;      /* 與 .nav a 一致 */
+  letter-spacing: -0.01em;
   color: var(--text);
   opacity: .92;                                   /* 比正文更醒目一點 */
   /* margin-bottom: .25rem; */
@@ -438,8 +484,12 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   text-align: justify;                            /* ✅ 左右對齊 */
   text-justify: auto;                         /* ✅ 改回自動模式，避免中英文空太大 */
   color: var(--text);
-  opacity: .95;                                   /* 舒適閱讀的明度 */
-  line-height: 1.85;                               /* 放大行距 */
+  opacity: .95;                                 /* 舒適閱讀的明度 */
+  line-height: 1.85;                           /* 放大行距 */
+  font-family:
+    var(--font-serif-en),
+    var(--font-cjk),
+    serif;
 }
 
 .home-actions {
