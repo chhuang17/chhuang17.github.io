@@ -11,6 +11,7 @@
 
 /* 舒適閱讀欄寬（文章內文 & 列表左欄文字） */
 --read: 72ch;                 /* 大約 70-75 字元寬 */
+--read-content: 90ch;
 --list-gap-y: clamp(1.25rem, 3vh, 2rem);
 --list-gap-x: clamp(1rem, 2vw, 1.5rem);
 }
@@ -227,7 +228,7 @@ html[data-theme="dark"] .thumb-wrap.no-backdrop {
 .post .markdown-body,
 .markdown-body,
 .post .content {
-  max-width: var(--read);
+  max-width: var(--read-content);
   margin-inline: 0;        /* 在 container 內靠左對齊 */
 }
 
@@ -258,6 +259,131 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   background: transparent;
   border: 0;
   padding: 0;
+}
+
+
+/* ===========================
+   Medium-like Article Typography
+   套用到文章頁（.markdown-body）
+   =========================== */
+
+/* 文章版心：不超過 header 的左右邊界，也不會太窄 */
+.container:has(.markdown-body) {
+  /* 版心置中，左右與 header 邊界一致 */
+  padding-left: max(1rem, calc((100vw - var(--wrap)) / 2));
+  padding-right: max(1rem, calc((100vw - var(--wrap)) / 2));
+}
+
+/* 文章內文區塊：限制最佳閱讀寬度（Medium 大約 66–72ch） */
+.markdown-body {
+  max-width: min(72ch, 100%);
+  margin: 0 auto;
+  color: var(--text);
+  /* 主要用襯線字：英文 Source Serif 4，中文 Noto Serif TC */
+  font-family:
+    "Source Serif 4", "Noto Serif TC",
+    Georgia, "Times New Roman", serif;
+  font-size: clamp(1.05rem, 0.35vw + 1rem, 1.25rem); /* ≈ 17–20px */
+  line-height: 1.9;
+}
+
+/* 段落與清單的垂直節奏 */
+.markdown-body p { margin: 0 0 1.15em; }
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0 0 1.25em 1.4em;
+  padding: 0;
+}
+.markdown-body li + li { margin-top: .35em; }
+
+/* 標題：用 Inter（或你的介面字）較有層次，行距更緊實 */
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  font-family: "Inter", 'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 1.6em 0 .6em;
+}
+.markdown-body h1 { font-size: clamp(2.0rem, 1.6vw + 1.6rem, 3.0rem); }
+.markdown-body h2 { font-size: clamp(1.6rem, 1.2vw + 1.2rem, 2.2rem); }
+.markdown-body h3 { font-size: clamp(1.35rem, .9vw + 1rem, 1.6rem);  }
+.markdown-body h4 { font-size: clamp(1.15rem, .6vw + .95rem, 1.25rem); }
+
+/* 內文內的小標（像 Medium 的 section title） */
+.markdown-body h2 + p,
+.markdown-body h3 + p { margin-top: .4em; }
+
+/* 引用（左邊細線 + 淡字色，微斜） */
+.markdown-body blockquote {
+  margin: 1.4em 0;
+  padding: .5em 1.1em;
+  border-left: 3px solid color-mix(in srgb, var(--text) 35%, transparent);
+  color: color-mix(in srgb, var(--text) 80%, #000000);
+  font-style: italic;
+}
+
+/* 連結：低調底線，hover 顯明 */
+.markdown-body a {
+  color: var(--text);
+  text-decoration-thickness: .06em;
+  text-underline-offset: .18em;
+  text-decoration-color: color-mix(in srgb, var(--brand) 60%, transparent);
+}
+.markdown-body a:hover {
+  color: var(--brand);
+  text-decoration-color: var(--brand);
+}
+
+/* 圖片：上下間距、置中、柔和圓角（沿用你的暗色背板規則） */
+.markdown-body img {
+  display: block;
+  max-width: 100%;
+  margin: 1.2em auto;
+  border-radius: .6rem;
+}
+
+/* 表格、程式碼（簡化版，若需要我再幫你美化） */
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2em 0;
+  font-size: .98em;
+}
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid var(--border);
+  padding: .6em .8em;
+}
+.markdown-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: .95em;
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  padding: .15em .35em;
+  border-radius: .35em;
+}
+.markdown-body pre {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: .6rem;
+  padding: 1rem;
+  overflow: auto;
+}
+
+/* 段落中的「分隔點點點」用 <hr> 也能有 Medium 感 */
+.markdown-body hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--text) 35%, transparent),
+    transparent
+  );
+  margin: 2.2em 0;
 }
 
 
