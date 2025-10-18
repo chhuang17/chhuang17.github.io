@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Blog｜Chien-Hao Huang</title>
+  <title>Projects｜Chien-Hao Huang</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
@@ -14,16 +14,16 @@
     <a class="brand" href="/">Chien-Hao Huang</a>
     <nav class="nav">
       <a href="/">Home</a>
-      <a href="/blog/" aria-current="page">Blog</a>
-      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <a href="/projects/" aria-current="page">Projects</a>
       <a href="/about/">About</a>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="切換主題">🌓</button>
     </nav>
   </header>
 
   <main class="container">
-    <h1>Blog</h1>
-    <section id="post-list" class="post-feed"></section>
+    <h1>Projects</h1>
+    <section id="project-list" class="project-feed"></section>
   </main>
 
   <footer class="site-footer">
@@ -32,7 +32,7 @@
 
   <script>
     // 在這裡列出你的文章資料夾名稱（之後新增文章時只要 push 新資料夾並把 slug 加進來）
-    const slugs = ["shp-intro"];
+    const slugs = ["highway-traffic-forecast"];
 
     function fmtDate(iso) {
       try {
@@ -41,7 +41,7 @@
     }
     
     async function loadPost(slug) {
-      const resp = await fetch(`/posts/${slug}/content.md`);
+      const resp = await fetch(`/project/${slug}/content.md`);
       if (!resp.ok) return null;
       let md = await resp.text();
 
@@ -77,29 +77,29 @@
     }
 
     (async () => {
-      const feed = document.getElementById('post-list');
+      const feed = document.getElementById('project-list');
       for (const slug of slugs) {
         const p = await loadPost(slug);
         if (!p) continue;
 
         // 整張卡片可點進文章
         const card = document.createElement('article');
-        card.className = 'post-card';
+        card.className = 'project-card';
         card.role = 'link';
         card.tabIndex = 0;
-        card.onclick = () => location.href = `/posts/${p.slug}/`;
+        card.onclick = () => location.href = `/project/${p.slug}/`;
         card.onkeypress = (e) => (e.key === 'Enter') && card.click();
 
         card.innerHTML = `
-          <div class="post-content">
-            <h3 class="post-title">${p.title}</h3>
+          <div class="project-content">
+            <h3 class="project-title">${p.title}</h3>
             ${p.date ? `<div class="meta">${p.date}</div>` : ''}
             ${p.excerpt ? `<p class="excerpt">${p.excerpt}</p>` : ''}
           </div>
           ${
             p.cover
               ? `<div class="thumb-wrap ${p.noBackdrop}">
-                  <img class="post-thumb" src="${p.cover}" alt="${p.title}">
+                  <img class="project-thumb" src="${p.cover}" alt="${p.title}">
                 </div>`
               : `<div></div>`
           }
