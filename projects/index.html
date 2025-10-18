@@ -23,7 +23,7 @@
 
   <main class="container">
     <h1>Projects</h1>
-    <section id="project-list" class="project-feed"></section>
+    <section id="post-list" class="post-feed"></section>
   </main>
 
   <footer class="site-footer">
@@ -77,29 +77,29 @@
     }
 
     (async () => {
-      const feed = document.getElementById('project-list');
+      const feed = document.getElementById('post-list');
       for (const slug of slugs) {
         const p = await loadPost(slug);
         if (!p) continue;
 
         // 整張卡片可點進文章
         const card = document.createElement('article');
-        card.className = 'project-card';
+        card.className = 'post-card';
         card.role = 'link';
         card.tabIndex = 0;
         card.onclick = () => location.href = `/project/${p.slug}/`;
         card.onkeypress = (e) => (e.key === 'Enter') && card.click();
 
         card.innerHTML = `
-          <div class="project-content">
-            <h3 class="project-title">${p.title}</h3>
+          <div class="post-content">
+            <h3 class="post-title">${p.title}</h3>
             ${p.date ? `<div class="meta">${p.date}</div>` : ''}
             ${p.excerpt ? `<p class="excerpt">${p.excerpt}</p>` : ''}
           </div>
           ${
             p.cover
               ? `<div class="thumb-wrap ${p.noBackdrop}">
-                  <img class="project-thumb" src="${p.cover}" alt="${p.title}">
+                  <img class="post-thumb" src="${p.cover}" alt="${p.title}">
                 </div>`
               : `<div></div>`
           }
