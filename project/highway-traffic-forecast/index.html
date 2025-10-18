@@ -33,7 +33,7 @@
     <nav class="nav">
       <a href="/">Home</a>
       <a href="/blog/">Blog</a>
-      <a href="/projects/">Projects</a>
+      <a href="/projects/" aria-current="page">Projects</a>
       <a href="/about/">About</a>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="切換主題">🌓</button>
     </nav>
@@ -41,7 +41,7 @@
 
   <main class="container">
     <article class="post markdown-body" id="content"></article>
-    <p><a href="/blog/">← 回到 Blog</a></p>
+    <p><a href="/projects/">← 回到 Projects</a></p>
   </main>
 
   <footer class="site-footer">
@@ -50,7 +50,7 @@
 
   <script>
     async function load() {
-      const resp = await fetch('/posts/shp-intro/content.md');
+      const resp = await fetch('/project/highway-traffic-forecast/content.md');
       let md = await resp.text();
 
       // 去掉 front-matter
