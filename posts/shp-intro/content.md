@@ -9,7 +9,7 @@ cover_backdrop: false
 最短漢米爾頓路徑問題 (I) - 數學模式說明
 ===
 
-##### tags: `TSP` `Hamiltonian Path` `Operations Research`
+##### Highlights: Traveling Salesman Problem, Hamiltonian Path, Operations Research
 
 ![TSP 示意圖](/posts/shp-intro/tsp.png)
 
