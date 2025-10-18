@@ -502,6 +502,102 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
 }
 .home-download .icon { margin-right: .5rem; display: inline-flex; }
 
+
+/* ============ About page ============ */
+.about-head {
+  margin-block: clamp(1rem, 4vh, 2rem) clamp(.5rem, 2vh, 1rem);
+}
+.about-title{
+  margin: 0;
+  font-family: "Inter", 'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  font-size: clamp(2rem, 1.2vw + 1.6rem, 2.6rem);
+}
+.about-kicker{
+  margin-top: .25rem;
+  color: var(--muted);
+  font-weight: 700; /* 和導覽列一致的無襯線粗體節奏 */
+  font-family: 'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 兩欄版型：左文右側欄 */
+.about-grid{
+  display: grid;
+  grid-template-columns: minmax(min(54ch, 100%), 1fr) 360px;
+  gap: clamp(2rem, 6vw, 4rem);
+  align-items: flex-start;
+}
+
+/* 左欄長文 — 繼承你的 Medium-like 文章排版（襯線） */
+.about .markdown-body{
+  max-width: var(--read-content);
+  margin-inline: 0;
+  font-family: "Source Serif 4", "Noto Serif TC", Georgia, "Times New Roman", serif;
+  font-size: clamp(1.05rem, 0.35vw + 1rem, 1.25rem);
+  line-height: 1.9;
+}
+.about .markdown-body h2{
+  font-family: "Inter", 'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 1.6em 0 .6em;
+  font-size: clamp(1.4rem, .9vw + 1.1rem, 1.9rem);
+}
+.about-news .date{
+  font-family: 'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--muted);
+  margin-right: .5rem;
+  white-space: nowrap;
+}
+
+/* 右欄卡片 */
+.about-aside{ align-self: start; }
+.about-card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+.about-photo{
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: .8rem;
+  margin-bottom: .75rem;
+}
+.about-role{
+  margin: .25rem 0 .5rem;
+  font-family: "Inter", 'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;   /* 無襯線粗體 */
+  line-height: 1.25;
+}
+.about-dl{
+  margin: 0 0 .75rem;
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: .35rem .75rem;
+  font-size: .98rem;
+}
+.about-dl dt{
+  color: var(--muted);
+  font-family: 'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.about-dl dd{ margin: 0; }
+
+/* 和首頁一致的 socials 樣式（已定義 .socials，可直接沿用） */
+
+/* RWD：手機單欄 */
+@media (max-width: 920px){
+  .about-grid{
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .about-aside{ order: -1; } /* 手機時把照片卡放在上方 */
+}
+
+
 /* 社群 icon：亮色黑、暗色白（用文字顏色控制） */
 .socials { display: flex; gap: .75rem; align-items: center; }
 .socials a {
