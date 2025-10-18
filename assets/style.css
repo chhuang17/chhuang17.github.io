@@ -8,6 +8,11 @@
 --wrap: 1440px;
 --header-h: 64px;
 --footer-h: 40px;
+
+/* 舒適閱讀欄寬（文章內文 & 列表左欄文字） */
+--read: 72ch;                 /* 大約 70-75 字元寬 */
+--list-gap-y: clamp(1.25rem, 3vh, 2rem);
+--list-gap-x: clamp(1rem, 2vw, 1.5rem);
 }
 
 
@@ -45,6 +50,15 @@ flex-direction: column;
 
 /* Macbook */
 @media (min-width: 957px) { .container { max-width: 1440px; } }
+
+
+/* 列表頁（Blog/Projects）整體的上下留白：讓它不會貼上緣 */
+.container > h1 + .post-feed {
+  margin-top: .5rem;
+}
+.container > h1 {
+  margin-block: clamp(1rem, 3vh, 1.5rem) clamp(.75rem, 2vh, 1rem);
+}
 
 
 .site-header, .site-footer {
@@ -128,34 +142,58 @@ section { margin: 2rem 0; }
 .muted { color: var(--muted); }
 
 /* Blog card feed (Medium-like) */
-.post-feed { display: flex; flex-direction: column; gap: 1.5rem; }
+.post-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--list-gap-y);
+  padding-block: .25rem; /* 輕微間距，避免太擠 */
+}
+/* 每張卡片：兩欄（左文右圖）。右圖不要太大，避免視覺失衡 */
 .post-card {
-  display: grid; grid-template-columns: 1fr 240px; gap: 1.25rem;
-  padding: 1.25rem 0; border-bottom: 1px solid var(--border);
-  align-items: center; cursor: pointer; /* ✅ 整卡可點，顯示手指游標 */
+  display: grid;
+  grid-template-columns: minmax(min(42ch, 100%), 1fr) 240px;
+  gap: var(--list-gap-x);
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+/* 左欄內文字區：限制閱讀欄寬，避免在寬螢幕上變太長 */
+.post-card .post-content {
+  min-width: 0;
+  max-width: var(--read);
+}
+
+/* 卡片標題與摘要 */
+.post-card .post-title {
+  margin: 0 0 .35rem;
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.35;
+}
+.post-card .excerpt {
+  margin: .25rem 0 0;
+  color: var(--text);
+  opacity: .92;
+  line-height: 1.75;
 }
 .post-card:hover .post-title { text-decoration: underline; } /* 輕微回饋 */
-.post-content { min-width: 0; } /* 防止標題溢出 */
-.post-title {
-  margin: 0; color: var(--text); /* ✅ 非連結顏色，隨亮暗模式 */
-  font-weight: 700; line-height: 1.35;
-}
 .meta { color: var(--muted); font-size: .9rem; margin: .35rem 0 .5rem; }
-.excerpt { margin: .25rem 0 0; color: var(--text); opacity: .92; }
 
-/* 縮圖容器：給透明 PNG 一個可靠的底色與邊框，在 dark mode 也清楚 */
+/* 右側縮圖容器：維持一致的視覺重量 */
 .thumb-wrap {
   border: 1px solid var(--border);
   border-radius: .75rem;
   overflow: hidden;
-  background: var(--card);        /* ✅ 亮暗模式自帶對比底色 */
+  background: var(--card);
   box-shadow: 0 1px 0 rgba(0,0,0,.05);
 }
 .post-thumb {
   display: block;
-  width: 100%; height: 150px; object-fit: cover;
-  /* 對透明 PNG 進一步提亮邊緣與細節（可視需要保留或拿掉） */
-  image-rendering: auto;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
 }
 
 /* 讓數學公式顏色跟隨主題 */
@@ -185,10 +223,24 @@ html[data-theme="dark"] .thumb-wrap.no-backdrop {
   box-shadow: none;
 }
 
-/* 文章頁內文圖片（從 Markdown 轉出） */
-.markdown-body img {
-  max-width: 100%;
-  border-radius: .6rem;
+/* 文章頁（內文）閱讀欄寬：不要滿版，仍在 .container 版心內 */
+.post .markdown-body,
+.markdown-body,
+.post .content {
+  max-width: var(--read);
+  margin-inline: 0;        /* 在 container 內靠左對齊 */
+}
+
+/* 文章內的大型媒體（圖片、表格、數學）可略寬於文字欄，視覺更平衡 */
+.post .markdown-body img,
+.post .markdown-body table,
+.post mjx-container[display="true"] {
+  max-width: min(calc(var(--read) + 12ch), 100%);
+}
+
+/* 文章頁上/下節奏（避免整頁太滿） */
+.post .markdown-body > * + * {
+  margin-top: .85em;
 }
 
 /* 只有在 dark mode 才加背板與細邊框、內距，避免亮色主題看起來框太重 */
@@ -327,6 +379,10 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
 /* 超大螢幕稍微放寬 */
 @media (min-width: 1400px) {
   :root { --wrap: 1280px; }
+  .post-card {
+    grid-template-columns: minmax(min(48ch, 100%), 1fr) 260px;
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
 }
 @media (max-width: 480px) {
   .site-footer {
@@ -336,6 +392,16 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   }
 }
 @media (max-width: 840px) {
+  .post-card {
+    grid-template-columns: 1fr;
+    gap: .75rem;
+  }
+  .post-card .post-content {
+    max-width: 100%;
+  }
+  .post-thumb {
+    height: 190px;
+  }
   .home-hero { 
     grid-template-columns: 1fr;
     text-align: left;
