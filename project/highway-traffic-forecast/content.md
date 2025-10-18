@@ -9,7 +9,7 @@ cover_backdrop: false
 A Time-Series Forecasting Model on Highway Traffic Volume and Speed
 ===
 
-##### Highlights: `Time-Series Forecasting`, `Convolutional Neural Network`, `PyTorch`
+##### Highlights: Time-Series Forecasting, Convolutional Neural Network, PyTorch
 
 <!-- 指定不要背板 -->
 <!-- <img src="/posts/shp-intro/tsp.png" alt="Shortest Hamiltonian Path" class="no-backdrop"> -->
