@@ -8,6 +8,7 @@
 --wrap: 1440px;
 --header-h: 64px;
 --footer-h: 40px;
+--exp-gap: 2.1rem;
 
 /* 舒適閱讀欄寬（文章內文 & 列表左欄文字） */
 --read: 72ch;                 /* 大約 70-75 字元寬 */
@@ -552,20 +553,48 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   white-space: nowrap;
 }
 
-/* 右欄卡片 */
-.about-aside{ align-self: start; }
+/* 右欄卡片 sticky，避免右側長空白 */
+.about-aside { position: sticky; top: calc(var(--header-h) + 16px); align-self:start; }
+
+/* 下半段全寬區塊（不再擠左欄） */
+.about-full { margin-top: 2rem; }
+
+/* 統一 H2 字級：讓 .about-full 內的 h2 與 .markdown-body h2 同尺寸 */
+.about-full > h2 {
+  font-family: "Inter", 'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 1.6em 0 clamp(.9em, 1.4vw, 1.2em);
+  font-size: clamp(1.4rem, .9vw + 1.1rem, 1.9rem);
+}
+
+/* === Section rhythm：拉開 about 下半部區塊間距 === */
+.about-full { 
+  margin-top: clamp(2.2rem, 4.5vh, 3.2rem);
+}
+.about-full + .about-full {
+  margin-top: clamp(2.4rem, 5vh, 3.6rem);
+}
+/* 第一段長文（From Engineering to Data）到下個區塊的距離再多一點 */
+.about-grid + .about-full {
+  margin-top: clamp(2.6rem, 5.5vh, 3.8rem);
+}
+
 .about-card{
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  padding: 1rem;
+  background: transparent;
+  border: 0;
+  padding: 0;
 }
 .about-photo{
   display: block;
   width: 100%;
   height: auto;
-  border-radius: .8rem;
-  margin-bottom: .75rem;
+  border-radius: .6rem;
+}
+.about-photo-figure { margin:0; }
+.about-caption {
+  margin-top:.5rem; color:var(--muted); font-size:.9rem;
+  line-height:1.4; border-top:1px dashed var(--border); padding-top:.5rem;
 }
 .about-role{
   margin: .25rem 0 .5rem;
@@ -636,6 +665,179 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
 }
 
 
+/* === Magazine Interview blocks === */
+.about-quote {
+  margin: 1.2em 0 1.6em;
+  padding: .8em 1.2em;
+  border-left: 4px solid color-mix(in srgb, var(--brand) 60%, transparent);
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  border-radius: .5rem;
+  font-style: italic;
+}
+
+/* 專題卡：三欄自適應 */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2.5vw, 1.25rem);
+  margin: .9rem 0 1.6rem;
+}
+@media (max-width: 920px) { .feature-grid { grid-template-columns: 1fr; } }
+.feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: .9rem;
+  padding: 1.1rem;
+  display: flex; flex-direction: column; gap: .4rem;
+}
+.feature-card h3 { margin: .25rem 0 .25rem; font-weight: 800; }
+.feature-card p { margin: 0; }
+.feature-link { margin-top: .4rem; color: var(--brand); text-decoration: none; }
+.feature-link:hover { text-decoration: underline; }
+
+/* ===== Experience & Education：左側虛線時間軸 ===== */
+.exp-timeline { list-style:none; padding:0; margin: .75rem 0 1.5rem; }
+.exp-item {
+  display:grid;
+  grid-template-columns: 240px 1fr; /* 左時間欄寬 */
+  gap: 1rem;
+  align-items:start;                /* 由右側內容決定高度 */
+}
+.exp-item + .exp-item {
+  margin-top: var(--exp-gap);        /* 兩段經歷之間拉開 */
+}
+@media (max-width: 720px){ .exp-item { grid-template-columns: 1fr; } }
+
+.exp-left { position:relative; padding-left: 18px; }
+.exp-dot {
+  position:absolute; left:0; top:.45rem;
+  width: 10px; height:10px; border-radius: 999px;
+  background: var(--brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent);
+}
+.exp-time {
+  display: inline-block;
+  font-family: var(--font-ui), var(--font-cjk), sans-serif;
+  color: var(--muted);
+  white-space: nowrap;
+}
+/* 虛線（點與點之間） */
+.exp-line {
+  position:absolute; left: 4px; top: 1.25rem; bottom: -1.25rem;
+  border-left: 2px dashed color-mix(in srgb, var(--text) 30%, transparent);
+  opacity:.85;
+  bottom: calc(var(--exp-gap) * -1); /* 向下延伸到下一段的圓點附近 */
+}
+.exp-line.is-end { bottom: 0; } /* 最後一個收尾 */
+
+/* 右側內容：移除卡片外框與底色，改純文字塊 */
+.exp-right { background: transparent; border: 0; padding: 0; border-bottom: 1px dashed var(--border); padding-bottom: 1rem; }
+.exp-title {
+  margin:0 0 .5rem;
+  font-family: var(--font-ui), var(--font-cjk), sans-serif;
+  font-weight:800; letter-spacing:-.01em;
+}
+
+/* Metric strip（量化亮點） */
+.metric-strip {
+  list-style: none; padding: 0; margin: .9rem 0 1.6rem;
+  display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: .75rem;
+}
+@media (max-width: 720px) { .metric-strip { grid-template-columns: repeat(2, 1fr); } }
+.metric-strip li {
+  background: var(--card); border: 1px solid var(--border); border-radius: .8rem;
+  padding: 1rem; text-align: center;
+}
+.metric-strip .metric { display: block; font-weight: 800; font-size: 1.25rem; }
+.metric-strip .label { display: block; color: var(--muted); font-size: .9rem; }
+
+/* Timeline（學經歷） */
+.timeline { list-style: none; padding: 0; margin: .5rem 0 1.5rem; position: relative; }
+.timeline > li { display: grid; grid-template-columns: 140px 1fr; gap: 1rem; position: relative; padding-left: .25rem; }
+.timeline > li + li { margin-top: .9rem; }
+.timeline .time { color: var(--muted); font-family: var(--font-ui), var(--font-cjk), sans-serif; white-space: nowrap; }
+.timeline .node {
+  background: var(--card); border: 1px solid var(--border); border-radius: .8rem; padding: .9rem;
+}
+.timeline .node ul { margin: .4rem 0 0 1.2rem; }
+
+/* 專長三欄 */
+/* .expertise-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1rem; margin: .5rem 0 1.25rem;
+}
+@media (max-width: 920px) { .expertise-grid { grid-template-columns: 1fr; } }
+.expertise-grid h4 {
+  margin: .1rem 0 .4rem;
+  font-family: var(--font-ui), var(--font-cjk), sans-serif;
+  font-weight: 800;
+} */
+/* ===== Expertise：表格版 ===== */
+.expertise-table {
+  width:100%; border-collapse: collapse; margin: .75rem 0 1.5rem;
+  font-size: 1rem; table-layout: fixed;
+}
+.expertise-table th, .expertise-table td {
+  border:1px solid var(--border);
+  padding:.75rem .9rem; vertical-align: top;
+}
+.expertise-table th {
+  text-align:left; font-weight:800;
+  font-family: var(--font-ui), var(--font-cjk), sans-serif;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+}
+.expertise-table td { color: var(--text); }
+
+/* Gallery teaser（把生活面導去獨立頁） */
+/* .gallery-teaser {
+  display: grid; grid-template-columns: 1fr 220px; gap: 1rem;
+  align-items: center;
+  padding: .9rem; border: 1px solid var(--border); border-radius: .9rem; background: var(--card);
+  margin: .8rem 0 1.6rem;
+}
+@media (max-width: 920px) { .gallery-teaser { grid-template-columns: 1fr; } }
+.gallery-teaser img {
+  width: 100%; height: 160px; object-fit: cover; border-radius: .6rem;
+}
+.gallery-teaser p { margin: 0; }
+.gallery-teaser a { margin-left: .35rem; color: var(--brand); text-decoration: none; }
+.gallery-teaser a:hover { text-decoration: underline; } */
+
+.gallery-section > h2 { margin-bottom: .9rem; }
+
+/* 略放鬆 Expertise 表格的上下節奏 */
+.expertise-table { margin: 1rem 0 1.8rem; }
+
+/* Gallery：兩欄＋縮圖 */
+.gallery-row{
+  display:grid;
+  grid-template-columns: 480px 1fr;      /* 左 480px 縮圖，右側文字彈性 */
+  gap: 1.1rem;
+  align-items: center;
+}
+@media (max-width: 900px){ .gallery-row{ grid-template-columns: 1fr; } }
+
+.gallery-thumb{
+  width: 100%;
+  aspect-ratio: 16 / 9;                   /* 固定比例避免拉扯，可改 16/9 */
+  overflow: hidden;
+  border-radius: .6rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+.gallery-thumb img{
+  width: 100%; height: 100%;
+  object-fit: cover;                     /* 縮圖裁切、不中斷比例 */
+  display:block;
+}
+.gallery-copy h3{ margin: 0 0 .25rem; }
+.gallery-copy p{ margin: 0; }
+.gallery-copy a{ color: var(--brand); text-decoration: none; }
+.gallery-copy a:hover{ text-decoration: underline; }
+
+
+
+/* ======================= RWD ======================= */
 /* 超大螢幕時再放寬一點點，看起來更平衡（可選） */
 @media (min-width: 1440px){
   :root { --wrap: 1280px; }
@@ -686,5 +888,43 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   .photo-frame { justify-self: start; }
   .photo-frame img { width: 100%; height: auto; }
   .post-card { grid-template-columns: 1fr; }
+}
+
+
+/* ===== Scroll Reveal (About only) ===== */
+.about .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 520ms ease,
+    transform 520ms ease;
+  will-change: opacity, transform;
+}
+
+/* 進場後 */
+.about .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 可選：區塊內常見子元素做簡單階梯淡入（h2、卡片、li、table、gallery 內文） */
+/* .about .reveal [data-reveal-child] {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+.about .reveal.is-visible [data-reveal-child] {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+/* 動畫偏好：使用者開啟「降低動態」時直接顯示 */
+@media (prefers-reduced-motion: reduce) {
+  .about .reveal,
+  .about .reveal [data-reveal-child] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 

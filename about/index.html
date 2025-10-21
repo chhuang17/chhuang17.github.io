@@ -6,20 +6,19 @@
   <title>About｜Chien-Hao Huang</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/style.css" />
-  <script defer src="/assets/main.js"></script>
+  <script defer src="../assets/main.js"></script>
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="/">Chien-Hao Huang</a>
     <nav class="nav">
-    <a href="/">Home</a>
-    <a href="/about/" aria-current="page">About</a>
-    <a href="/projects/">Projects</a>
-    <a href="/blog/">Blog</a>
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="切換主題">🌓</button>
+      <a href="/">Home</a>
+      <a href="/about/" aria-current="page">About</a>
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="切換主題">🌓</button>
     </nav>
   </header>
-
 
   <main class="container about">
     <!-- 頁首：標題 + 一行介紹 -->
@@ -28,94 +27,203 @@
       <p class="about-kicker">Affiliations · Interests · Contacts</p>
     </section>
 
-    <!-- 主體：左文右側欄 -->
+    <!-- 上半段：左文右照片（雜誌開場） -->
     <section class="about-grid">
-      <!-- 左欄：主要敘述（長文用襯線、易讀欄寬） -->
       <article class="about-main markdown-body">
+        <blockquote class="about-quote">
+          <p>I see machine learning as <em>system design</em>—not just modeling. Reliability, observability, and feedback loops matter as much as accuracy.</p>
+        </blockquote>
+
+        <h2>From Engineering to Data</h2>
         <p>
-          I am a <strong>Data Scientist / ML Engineer</strong> focusing on algorithm development, mathematical
-          modeling, and end-to-end ML/DL system design. Over the past years, I've deployed solutions in
-          <em>time-series forecasting</em>, <em>vehicle routing optimization</em>, and <em>reinforcement learning</em>,
-          with a strong emphasis on bridging theory and practice.
+          I didn't begin as a data scientist. My early training was in traffic engineering—where constraints and uncertainty
+          meet real-world operations. That background shaped how I reason about systems: how signals propagate, how
+          bottlenecks form, and how interventions ripple. When I discovered machine learning, I realized those instincts
+          carried over. Forecasting, optimization, and experimentation became the tools—and turning models into products
+          became the goal.
         </p>
-
-        <p>
-          I'm currently working at <a href="https://www.garmin.com.tw/" target="_blank" rel="noopener">GARMIN</a> 
-          as a Business Intelligence Engineer, where I mainly play a Data Scientist / ML Engineer role 
-          and help build ML systems to optimize demand forecasting and operational efficiency.
-        </p>
-
-        <h2>Work Experience</h2>
-        <!-- <p>
-          Previously, I worked on building forecasting services and decision engines that support logistics
-          operations at scale. I enjoy translating mathematical ideas into pragmatic, measurable impact.
-        </p> -->
-        <ul>
-          <li>
-            <strong>Business Intelligence Engineer</strong>, GARMIN (2024/08 - Present)
-            <ul>
-              <li>Develop and deploy ML models for demand forecasting and inventory optimization.</li>
-              <li>Collaborate with cross-functional teams to integrate data-driven solutions into business processes.</li>
-            </ul>
-          </li>
-          <li>
-            <strong>Data Scientist</strong>, Gastom LPG E-Commerce (2023/07 - 2024/08)
-            <ul>
-              <li>Built and maintained end-to-end machine learning systems for logistics optimization.</li>
-              <li>Implemented time-series forecasting models to improve delivery efficiency.</li>
-            </ul>
-          </li>
-        </ul>
-
-        <h2>Selected Highlights</h2>
-        <ul>
-          <li>Honorable Mention, 2024 Intelligence Transportation Management Competition (National Freeway Bureau, Taiwan).</li>
-          <li>Honorable Mention, Constructing Arterial Real-Time Traffic Signal Control System by DDPG. (2022 International Conference and Annual Meeting of the Chinese Institute of Transportation)</li>
-        </ul>
-
-        <h2>News</h2>
-        <ul class="about-news">
-          <li><span class="date">2025-10-08</span> Published: <a href="/posts/shp-intro/">Shortest Hamiltonian Path (intro)</a></li>
-          <li><span class="date">2024-10-07</span> Project: <a href="/project/highway-traffic-forecast/">Highway Traffic Forecast</a></li>
-        </ul>
-
-        <h2>Latest Posts</h2>
-        <ul class="about-posts">
-          <li><a href="/posts/shp-intro/">Shortest Hamiltonian Path — an overview</a></li>
-        </ul>
       </article>
 
-      <!-- 右欄：照片 + 聯絡方式（卡片） -->
+      <!-- 右欄：照片卡（雜誌風，細邊＋註記） -->
       <aside class="about-aside">
-        <div class="about-card">
+        <figure class="about-card about-photo-figure">
           <img class="about-photo" src="/assets/profile.jpeg" alt="Chien-Hao Huang" loading="lazy">
-          <div class="about-meta">
-            <h3 class="about-role">Data Scientist / ML Engineer</h3>
-            <!-- <dl class="about-dl">
-              <dt>Email</dt><dd><a href="mailto:will.brown510202@gmail.com">will.brown510202@gmail.com</a></dd>
-              <dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/chhuang17/" target="_blank" rel="noopener">/in/chhuang17</a></dd>
-              <dt>GitHub</dt><dd><a href="https://github.com/chhuang17" target="_blank" rel="noopener">@chhuang17</a></dd>
-              <dt>Location</dt><dd>Taiwan</dd>
-            </dl> -->
+          <figcaption class="about-caption">
+            Photo: Night walk in Taipei, December 2024
+          </figcaption>
 
+          <!-- <div class="about-meta">
+            <h3 class="about-role">Data Scientist / ML Engineer</h3>
             <div class="socials">
               <a href="https://www.linkedin.com/in/chhuang17/" aria-label="LinkedIn" target="_blank" rel="noopener">
-                <!-- LinkedIn -->
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0zM8 8h4.8v2.2h.07c.67-1.2 2.3-2.46 4.74-2.46 5.07 0 6 3.34 6 7.68V24h-5v-7.2c0-1.72-.03-3.94-2.4-3.94-2.4 0-2.76 1.87-2.76 3.8V24H8z"/></svg>
               </a>
               <a href="https://github.com/chhuang17" aria-label="GitHub" target="_blank" rel="noopener">
-                <!-- GitHub -->
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A12 12 0 0 0 0 12.6c0 5.35 3.44 9.89 8.2 11.49.6.11.82-.27.82-.59v-2.13c-3.34.75-4.04-1.45-4.04-1.45-.55-1.43-1.35-1.81-1.35-1.81-1.1-.77.08-.75.08-.75 1.22.09 1.87 1.28 1.87 1.28 1.08 1.9 2.82 1.35 3.51 1.03.11-.81.42-1.35.76-1.66-2.67-.31-5.47-1.39-5.47-6.2 0-1.37.46-2.49 1.22-3.37-.12-.3-.53-1.55.12-3.24 0 0 1.01-.33 3.3 1.29a11.2 11.2 0 0 1 6 0c2.29-1.62 3.3-1.29 3.3-1.29.66 1.69.24 2.94.12 3.24.76.88 1.22 2 1.22 3.37 0 4.83-2.81 5.88-5.49 6.19.43.38.81 1.12.81 2.27v3.36c0 .33.22.71.83.59A12 12 0 0 0 24 12.6 12 12 0 0 0 12 .5z"/></svg>
               </a>
               <a href="mailto:will.brown510202@gmail.com" aria-label="Email">
-                <!-- Mail -->
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 2v.01L12 12 4 6.01V6h16zM4 18V8l8 6 8-6v10H4z"/></svg>
               </a>
             </div>
-          </div>
-        </div>
+          </div> -->
+        </figure>
       </aside>
     </section>
+
+    <!-- 左側虛線時間軸 + 右側卡片 -->
+    <section class="about-full reveal">
+      <h2>Experience & Education</h2>
+      <ol class="exp-timeline">
+        <li class="exp-item">
+          <div class="exp-left">
+            <span class="exp-dot"></span>
+            <span class="exp-time">Aug. 2024 – Present</span>
+            <span class="exp-line"></span>
+          </div>
+          <div class="exp-right">
+            <h3 class="exp-title">Business Intelligence Engineer ・ GARMIN</h3>
+            <ul>
+              <li>Develop and deploy ML models for demand forecasting and inventory optimization.</li>
+              <li>Integrate ML pipelines with business operations and monitoring.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="exp-item">
+          <div class="exp-left">
+            <span class="exp-dot"></span>
+            <span class="exp-time">Jul. 2023 – Aug. 2024</span>
+            <span class="exp-line"></span>
+          </div>
+          <div class="exp-right">
+            <h3 class="exp-title">Data Scientist ・ Gastom LPG E-Commerce</h3>
+            <ul>
+              <li>Built end-to-end ML systems for logistics optimization.</li>
+              <li>Implemented time-series forecasting to improve delivery efficiency.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="exp-item">
+          <div class="exp-left">
+            <span class="exp-dot"></span>
+            <span class="exp-time">Before 2023</span>
+            <span class="exp-line is-end"></span>
+          </div>
+          <div class="exp-right">
+            <h3 class="exp-title">Traffic Engineering (Professional Certificate)</h3>
+            <ul>
+              <li>Optimization & simulation on transport systems; later transitioned to ML.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </section>
+    
+    <!-- 下半段：全寬區塊（不再擠在左欄） -->
+    <section class="about-full reveal">
+      <h2>Work Focus</h2>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>RMA Return Forecasting</h3>
+          <p>Airflow + MLflow + Kubernetes pipeline for organization-wide forecasting. Measurable gains on key segments.</p>
+          <a class="feature-link" href="/projects/rma-forecasting/">Read project →</a>
+        </article>
+        <article class="feature-card">
+          <h3>MLOps & Monitoring</h3>
+          <p>Drift checks, alerting, retraining schedules, and deployment rails that keep models healthy in production.</p>
+          <a class="feature-link" href="/projects/mlops-monitoring/">See monitoring →</a>
+        </article>
+        <article class="feature-card">
+          <h3>Scaling Experiments</h3>
+          <p>From pilot SKUs to org-wide coverage. CI/CD and caching shortened retraining time and improved reliability.</p>
+          <a class="feature-link" href="/blog/scaling-prod-ml/">Scaling notes →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="about-full reveal">
+      <h2>Selected Highlights</h2>
+      <ul class="metric-strip">
+        <li><span class="metric">10+</span><span class="label">Production models</span></li>
+        <li><span class="metric">↓</span><span class="label">Retraining lead time</span></li>
+        <li><span class="metric">12%</span><span class="label">WAPE improvement (key segments)</span></li>
+        <li><span class="metric">Org-wide</span><span class="label">Coverage scaled from pilots</span></li>
+      </ul>
+    </section>
+
+    <!-- 表格版 Expertise -->
+    <section class="about-full reveal">
+      <h2>Expertise</h2>
+      <table class="expertise-table">
+        <thead>
+          <tr>
+            <th>ML / Modeling</th>
+            <th>MLOps / Deployment</th>
+            <th>Data / Infra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Time-series (XGBoost, iTransformer)</td>
+            <td>Airflow</td>
+            <td>Python</td>
+          </tr>
+          <tr>
+            <td>Survival analysis</td>
+            <td>MLflow</td>
+            <td>Pandas</td>
+          </tr>
+          <tr>
+            <td>Feature engineering</td>
+            <td>Docker, Kubernetes</td>
+            <td>SQLAlchemy</td>
+          </tr>
+          <tr>
+            <td>Evaluation (MAE / WAPE)</td>
+            <td>Jenkins, Monitoring</td>
+            <td>GCP / AWS, Grafana / Qlik</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- <section class="about-full reveal">
+    <div class="gallery-row">
+        <div class="gallery-thumb">
+        <img src="/assets/ubl.jpeg" alt="Off work moment">
+        </div>
+        <div class="gallery-copy">
+        <h3 class="muted">Beyond work</h3>
+        <p>
+            Outside of work, you'll probably find me on a baseball field—balancing precision and rhythm.
+            <a href="/gallery/">Visit Gallery →</a>
+        </p>
+        </div>
+    </div>
+    </section> -->
+    <section class="about-full gallery-section reveal">
+    <h2>Gallery</h2>
+    <div class="gallery-row">
+        <div class="gallery-thumb">
+        <img src="/assets/ubl.jpeg" alt="Off work moment">
+        </div>
+        <div class="gallery-copy">
+        <p>
+            Outside of work, you'll probably find me on a baseball field—balancing precision and rhythm.
+            <a href="/gallery/">Visit Gallery →</a>
+        </p>
+        </div>
+    </div>
+    </section>
+
+
+
+    <!-- <section class="about-full reveal">
+      <h2>News</h2>
+      <ul class="about-news">
+        <li><span class="date">2025-10-08</span> Published: <a href="/posts/shp-intro/">Shortest Hamiltonian Path (intro)</a></li>
+        <li><span class="date">2024-10-07</span> Project: <a href="/project/highway-traffic-forecast/">Highway Traffic Forecast</a></li>
+      </ul>
+    </section> -->
   </main>
 
   <footer class="site-footer">

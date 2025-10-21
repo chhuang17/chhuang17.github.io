@@ -41,3 +41,42 @@
     }
   });
 })();
+
+
+// === Scroll reveal (About page, bi-directional) ===
+document.addEventListener('DOMContentLoaded', () => {
+  const root = document.querySelector('main.container.about');
+  if (!root) return;
+
+  const sections = root.querySelectorAll('.about-full.reveal');
+
+  if (!('IntersectionObserver' in window)) {
+    sections.forEach(el => el.classList.add('is-visible'));
+    return;
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const el = entry.target;
+
+      if (entry.isIntersecting) {
+        // 當區塊進入可視範圍 → 顯示
+        el.classList.add('is-visible');
+
+        // 階梯淡入
+        const kids = el.querySelectorAll('[data-reveal-child]');
+        kids.forEach((k, i) => {
+          k.style.transitionDelay = `${i * 80}ms`;
+        });
+      } else {
+        // 當區塊離開可視範圍 → 淡出
+        el.classList.remove('is-visible');
+      }
+    });
+  }, {
+    threshold: 0.35,
+    rootMargin: '0px 0px -8% 0px'
+  });
+
+  sections.forEach(s => io.observe(s));
+});
