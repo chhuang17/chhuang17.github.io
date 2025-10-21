@@ -890,3 +890,41 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   .post-card { grid-template-columns: 1fr; }
 }
 
+
+/* ===== Scroll Reveal (About only) ===== */
+.about .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 520ms ease,
+    transform 520ms ease;
+  will-change: opacity, transform;
+}
+
+/* 進場後 */
+.about .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 可選：區塊內常見子元素做簡單階梯淡入（h2、卡片、li、table、gallery 內文） */
+/* .about .reveal [data-reveal-child] {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+.about .reveal.is-visible [data-reveal-child] {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+/* 動畫偏好：使用者開啟「降低動態」時直接顯示 */
+@media (prefers-reduced-motion: reduce) {
+  .about .reveal,
+  .about .reveal [data-reveal-child] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
