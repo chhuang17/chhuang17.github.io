@@ -761,6 +761,106 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
 }
 .timeline .node ul { margin: .4rem 0 0 1.2rem; }
 
+
+/* ===== Tabs (Notion-like) ===== */
+.tabs {
+  position: relative;
+  /* display: grid; */
+  grid-template-columns: auto auto auto 1fr; /* 三個 tab + 右側彈性空間 */
+  align-items: end;
+  gap: .5rem 1rem;
+  margin-top: .4rem;
+  --tab-accent: var(--brand);
+  /* border-bottom: 1px solid var(--border); */
+  /* padding-bottom: .25rem; */
+}
+
+/* 隱藏 radio 本體，但保留可聚焦性由 label 承擔 */
+.tabs input { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+
+/* Tab 外觀 */
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .45rem .8rem;
+  border-radius: .7rem;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 85%, var(--card));
+  font-weight: 700;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  user-select: none;
+  --tab-accent: var(--brand);
+}
+
+.tabs .tablist{
+  display:flex; gap:.6rem;
+  border-bottom:1px solid var(--border);
+  margin-bottom:.85rem;
+}
+.tabs .tablist label{
+  position:relative;
+  padding:.55rem .9rem .7rem;
+  cursor:pointer;
+  color: var(--text);
+  background: transparent;     /* 無外框、無底色 */
+  border:0;
+  border-radius:.5rem;
+  font-weight: 700;
+  opacity:.75;
+  display:inline-flex; gap:.5rem; align-items:center;
+}
+.tabs .tablist label .i{ font-size:1.05em; line-height:1; }
+.tabs .tablist label:hover{ opacity:.95; }
+
+/* 啟用狀態（底線條） */
+#tab-software:checked ~ .tablist label[for="tab-software"],
+#tab-expertise:checked ~ .tablist label[for="tab-expertise"],
+#tab-language:checked  ~ .tablist label[for="tab-language"]{
+  opacity:1;
+}
+#tab-software:checked ~ .tablist label[for="tab-software"]::after,
+#tab-expertise:checked ~ .tablist label[for="tab-expertise"]::after,
+#tab-language:checked  ~ .tablist label[for="tab-language"]::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:-1px;
+  height:3px; background: var(--tab-accent);
+  border-radius: 3px;
+}
+
+/* 面板切換（純 CSS） */
+.tabs .panels .panel{ display:none; }
+#tab-software:checked ~ .panels #panel-software{ display:block; }
+#tab-expertise:checked ~ .panels #panel-expertise{ display:block; }
+#tab-language:checked  ~ .panels #panel-language { display:block; }
+
+/* ===== 3 欄 chip grid ===== */
+.chip-grid{
+  list-style:none; padding:0; margin:0;
+  display:grid; gap:.75rem 1rem;
+}
+.chip-grid.three{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+
+@media (max-width: 980px){
+  .chip-grid.three{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 560px){
+  .chip-grid.three{ grid-template-columns: 1fr; }
+}
+
+/* Notion 風小卡（與範例一致：輕邊框+柔和圓角） */
+.chip{
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius:.7rem;
+  padding:.8rem 1rem;
+  font-weight:700;
+  letter-spacing:-0.01em;
+}
+
+
 /* 專長三欄 */
 /* .expertise-grid {
   display: grid; grid-template-columns: repeat(3, 1fr);

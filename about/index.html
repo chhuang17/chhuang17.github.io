@@ -150,40 +150,64 @@
       </ul>
     </section>
 
-    <!-- 表格版 Expertise -->
-    <section class="about-full reveal">
-      <h2>Expertise</h2>
-      <table class="expertise-table">
-        <thead>
-          <tr>
-            <th>ML / Modeling</th>
-            <th>MLOps / Deployment</th>
-            <th>Data / Infra</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Time-series (XGBoost, iTransformer)</td>
-            <td>Airflow</td>
-            <td>Python</td>
-          </tr>
-          <tr>
-            <td>Survival analysis</td>
-            <td>MLflow</td>
-            <td>Pandas</td>
-          </tr>
-          <tr>
-            <td>Feature engineering</td>
-            <td>Docker, Kubernetes</td>
-            <td>SQLAlchemy</td>
-          </tr>
-          <tr>
-            <td>Evaluation (MAE / WAPE)</td>
-            <td>Jenkins, Monitoring</td>
-            <td>GCP / AWS, Grafana / Qlik</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Skills (tabs + chips) -->
+    <section class="about-full" id="skills">
+      <h2>Skills</h2>
+
+      <div class="skills-tabs tabs">
+        <!-- radios（控制哪個面板顯示） -->
+        <input type="radio" name="skillsTab" id="tab-software" checked>
+        <input type="radio" name="skillsTab" id="tab-expertise">
+        <input type="radio" name="skillsTab" id="tab-language">
+
+        <!-- tab 列（無外框、僅底線指示） -->
+        <div class="tablist" role="tablist" aria-label="Skills tabs">
+          <label for="tab-software" id="lbl-software" role="tab" aria-controls="panel-software" aria-selected="true">
+            <span class="i">💻</span><strong>Software</strong>
+          </label>
+          <label for="tab-expertise" id="lbl-expertise" role="tab" aria-controls="panel-expertise" aria-selected="false">
+            <span class="i">🧠</span><strong>Expertise</strong>
+          </label>
+          <label for="tab-language" id="lbl-language" role="tab" aria-controls="panel-language" aria-selected="false">
+            <span class="i">🌐</span><strong>Language</strong>
+          </label>
+        </div>
+
+        <!-- panels -->
+        <div class="panels">
+          <div id="panel-software" class="panel" role="tabpanel" aria-labelledby="lbl-software">
+            <ul class="chip-grid three">
+              <li class="chip">Python</li>
+              <li class="chip">Pandas</li>
+              <li class="chip">SQLAlchemy</li>
+              <li class="chip">Airflow</li>
+              <li class="chip">MLflow</li>
+              <li class="chip">Docker</li>
+              <li class="chip">Kubernetes</li>
+              <li class="chip">Qlik</li>
+            </ul>
+          </div>
+
+          <div id="panel-expertise" class="panel" role="tabpanel" aria-labelledby="lbl-expertise">
+            <ul class="chip-grid three">
+              <li class="chip">Time-series Forecasting</li>
+              <li class="chip">Survival Analysis</li>
+              <li class="chip">Feature Engineering</li>
+              <li class="chip">Model Monitoring</li>
+              <li class="chip">Experimentation</li>
+              <li class="chip">Optimization</li>
+            </ul>
+          </div>
+
+          <div id="panel-language" class="panel" role="tabpanel" aria-labelledby="lbl-language">
+            <ul class="chip-grid three">
+              <li class="chip">中文（母語）</li>
+              <li class="chip">English (Professional)</li>
+              <li class="chip">日本語（読解）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- <section class="about-full reveal">
