@@ -573,7 +573,7 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   margin-top: clamp(2.2rem, 4.5vh, 3.2rem);
 }
 .about-full + .about-full {
-  margin-top: clamp(2.4rem, 5vh, 3.6rem);
+  margin-top: clamp(7.2rem, 5vh, 3.6rem);
 }
 /* 第一段長文（From Engineering to Data）到下個區塊的距離再多一點 */
 .about-grid + .about-full {
@@ -715,6 +715,14 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   background: var(--brand);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent);
 }
+/* 💡 Light mode：改成柔和藍 + 更輕的外圈，視覺融入背景 */
+html[data-theme="light"] .exp-dot {
+  /* background: #3b82f6; blue-500 */
+  background: #3b82f6; /* blue-500 */
+  /* box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); 淡淡外圈 */
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); /* 淡淡外圈 */
+  border: 1px solid rgba(59, 130, 246, 0.35);     /* 讓邊界更精緻 */
+}
 .exp-time {
   display: inline-block;
   font-family: var(--font-ui), var(--font-cjk), sans-serif;
@@ -760,6 +768,19 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   background: var(--card); border: 1px solid var(--border); border-radius: .8rem; padding: .9rem;
 }
 .timeline .node ul { margin: .4rem 0 0 1.2rem; }
+
+
+/* —— Tighten spacing only for the Skills section —— */
+/* Skills 標題與 tabs 的距離縮小 */
+#skills > h2 {
+  /* 原本: margin: 1.6em 0 clamp(.9em, 1.4vw, 1.2em) */
+  margin-bottom: .35em;        /* 收緊底部間距 */
+}
+
+/* Tabs 與標題之間幾乎貼齊，保留底線指示 */
+#skills .tabs {
+  margin-top: 0;               /* 原本 .4rem */
+}
 
 
 /* ===== Tabs (Notion-like) ===== */
