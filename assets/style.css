@@ -831,10 +831,17 @@ html[data-theme="light"] .exp-dot {
   border-radius:.5rem;
   font-weight: 700;
   opacity:.75;
-  display:inline-flex; gap:.5rem; align-items:center;
+  display:inline-flex; gap:.55rem; align-items:center;
 }
 .tabs .tablist label .i{ font-size:1.05em; line-height:1; }
 .tabs .tablist label:hover{ opacity:.95; }
+
+/* Tab icons：只用線條、不填色，隨文字顏色變化 */
+.tabs .tablist .i {
+  width: 20px; height: 20px;
+  display: inline-block;
+  opacity: .8;              /* 未選取更低調 */
+}
 
 /* 啟用狀態（底線條） */
 #tab-software:checked ~ .tablist label[for="tab-software"],
@@ -842,6 +849,13 @@ html[data-theme="light"] .exp-dot {
 #tab-language:checked  ~ .tablist label[for="tab-language"]{
   opacity:1;
 }
+#tab-software:checked ~ .tablist label[for="tab-software"] .i,
+#tab-expertise:checked ~ .tablist label[for="tab-expertise"] .i,
+#tab-language:checked  ~ .tablist label[for="tab-language"] .i {
+  opacity: 1;
+}
+
+/* 底線指示（你提到要保留的那條） */
 #tab-software:checked ~ .tablist label[for="tab-software"]::after,
 #tab-expertise:checked ~ .tablist label[for="tab-expertise"]::after,
 #tab-language:checked  ~ .tablist label[for="tab-language"]::after{
@@ -860,7 +874,7 @@ html[data-theme="light"] .exp-dot {
 /* ===== 3 欄 chip grid ===== */
 .chip-grid{
   list-style:none; padding:0; margin:0;
-  display:grid; gap:.75rem 1rem;
+  display:grid; gap:.85rem 1rem;
 }
 .chip-grid.three{ grid-template-columns: repeat(3, minmax(0,1fr)); }
 
@@ -880,6 +894,10 @@ html[data-theme="light"] .exp-dot {
   font-weight:700;
   letter-spacing:-0.01em;
 }
+
+/* chip 前導 icon（線條） */
+.chip .ci { width: 18px; height: 18px; flex: 0 0 18px; opacity: .85; }
+.chip .ct { line-height: 1.4; }
 
 
 /* ===== Notion-style cards：亮色透明、暗色有背板 ===== */
