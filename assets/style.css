@@ -852,12 +852,59 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
 
 /* Notion 風小卡（與範例一致：輕邊框+柔和圓角） */
 .chip{
-  background: var(--card);
+  background: transparent;
   border:1px solid var(--border);
   border-radius:.7rem;
   padding:.8rem 1rem;
   font-weight:700;
   letter-spacing:-0.01em;
+}
+
+
+/* ===== Notion-style cards：亮色透明、暗色有背板 ===== */
+
+/* 預設（亮色主題）：透明底、細邊框 */
+.feature-card,
+.chip,
+.metric-strip li {
+  background: transparent;
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+/* 深色主題：維持 var(--card) 背板，閱讀性更好 */
+html[data-theme="dark"] .feature-card,
+html[data-theme="dark"] .chip,
+html[data-theme="dark"] .metric-strip li {
+  background: var(--card);
+}
+
+/* Hover 效果：兩邊都只是淡淡提亮，不突兀 */
+.feature-card:hover,
+.chip:hover,
+.metric-strip li:hover {
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+html[data-theme="dark"] .feature-card:hover,
+html[data-theme="dark"] .chip:hover,
+html[data-theme="dark"] .metric-strip li:hover {
+  background: color-mix(in srgb, var(--card) 85%, var(--text) 8%);
+}
+
+/* Work Focus 連結：低調底線，hover 才用品牌色（兩主題一致） */
+.feature-link{
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: .06em;
+  text-underline-offset: .3em;
+  text-decoration-color: color-mix(in srgb, var(--text) 35%, transparent);
+}
+.feature-link:hover{
+  color: var(--brand);
+  text-decoration-style: solid;
+  text-decoration-color: var(--brand);
 }
 
 
