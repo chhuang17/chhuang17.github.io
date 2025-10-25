@@ -997,80 +997,99 @@ html[data-theme="dark"] .metric-strip li:hover {
 }
 
 
-/* 專長三欄 */
-/* .expertise-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1rem; margin: .5rem 0 1.25rem;
+/* ===== Contact ===== */
+#contact > h2 {
+  margin-bottom: .5rem; /* 與整站節奏一致 */
 }
-@media (max-width: 920px) { .expertise-grid { grid-template-columns: 1fr; } }
-.expertise-grid h4 {
-  margin: .1rem 0 .4rem;
-  font-family: var(--font-ui), var(--font-cjk), sans-serif;
-  font-weight: 800;
-} */
-/* ===== Expertise：表格版 ===== */
-.expertise-table {
-  width:100%; border-collapse: collapse; margin: .75rem 0 1.5rem;
-  font-size: 1rem; table-layout: fixed;
+.contact-kicker {
+  margin: .25rem 0 1rem;
+  color: var(--muted);
+  max-width: 64ch;
 }
-.expertise-table th, .expertise-table td {
-  border:1px solid var(--border);
-  padding:.75rem .9rem; vertical-align: top;
-}
-.expertise-table th {
-  text-align:left; font-weight:800;
-  font-family: var(--font-ui), var(--font-cjk), sans-serif;
-  background: color-mix(in srgb, var(--text) 6%, transparent);
-}
-.expertise-table td { color: var(--text); }
 
-/* Gallery teaser（把生活面導去獨立頁） */
-/* .gallery-teaser {
-  display: grid; grid-template-columns: 1fr 220px; gap: 1rem;
-  align-items: center;
-  padding: .9rem; border: 1px solid var(--border); border-radius: .9rem; background: var(--card);
-  margin: .8rem 0 1.6rem;
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  align-items: start;
 }
-@media (max-width: 920px) { .gallery-teaser { grid-template-columns: 1fr; } }
-.gallery-teaser img {
-  width: 100%; height: 160px; object-fit: cover; border-radius: .6rem;
+@media (max-width: 900px){
+  .contact-grid { grid-template-columns: 1fr; }
 }
-.gallery-teaser p { margin: 0; }
-.gallery-teaser a { margin-left: .35rem; color: var(--brand); text-decoration: none; }
-.gallery-teaser a:hover { text-decoration: underline; } */
 
-.gallery-section > h2 { margin-bottom: .9rem; }
-
-/* 略放鬆 Expertise 表格的上下節奏 */
-.expertise-table { margin: 1rem 0 1.8rem; }
-
-/* Gallery：兩欄＋縮圖 */
-.gallery-row{
-  display:grid;
-  grid-template-columns: 480px 1fr;      /* 左 480px 縮圖，右側文字彈性 */
-  gap: 1.1rem;
-  align-items: center;
-}
-@media (max-width: 900px){ .gallery-row{ grid-template-columns: 1fr; } }
-
-.gallery-thumb{
-  width: 100%;
-  aspect-ratio: 16 / 9;                   /* 固定比例避免拉扯，可改 16/9 */
-  overflow: hidden;
-  border-radius: .6rem;
+/* 左卡：亮色透明、暗色有背板（Notion 風延續） */
+.contact-card {
   border: 1px solid var(--border);
+  border-radius: .9rem;
+  padding: 1rem;
+  background: transparent;
+}
+html[data-theme="dark"] .contact-card {
   background: var(--card);
 }
-.gallery-thumb img{
-  width: 100%; height: 100%;
-  object-fit: cover;                     /* 縮圖裁切、不中斷比例 */
-  display:block;
-}
-.gallery-copy h3{ margin: 0 0 .25rem; }
-.gallery-copy p{ margin: 0; }
-.gallery-copy a{ color: var(--brand); text-decoration: none; }
-.gallery-copy a:hover{ text-decoration: underline; }
 
+/* 清單 */
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: .35rem;
+}
+.contact-list li {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: center;
+  gap: .6rem;
+  padding: .55rem .25rem;
+  border-bottom: 1px dashed var(--border);
+}
+.contact-list li:last-child { border-bottom: 0; }
+
+.contact-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: .06em;
+  text-underline-offset: .25em;
+  text-decoration-color: color-mix(in srgb, var(--text) 35%, transparent);
+}
+.contact-link:hover {
+  color: var(--brand);
+  text-decoration-style: solid;
+  text-decoration-color: var(--brand);
+}
+
+/* 小圖示（線條） */
+.ci {
+  width: 20px;
+  height: 20px;
+  opacity: .9;
+}
+
+/* 右側說明卡 */
+.contact-aside {
+  display: grid;
+  gap: .75rem;
+}
+.contact-note {
+  border: 1px solid var(--border);
+  border-radius: .9rem;
+  padding: .9rem 1rem;
+  background: transparent;
+}
+html[data-theme="dark"] .contact-note {
+  background: var(--card);
+}
+.contact-note h3 {
+  margin: 0 0 .35rem;
+  font-weight: 800;
+}
+.contact-note p {
+  margin: 0;
+  color: var(--text);
+  opacity: .95;
+}
 
 
 /* ======================= RWD ======================= */
