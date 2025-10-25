@@ -432,6 +432,46 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
 }
 
 
+/* ===== Medium-like image + caption ===== */
+.markdown-body .md-figure {
+  display: block;
+  margin: 1.2em auto;                 /* 與你原本 img 的間距一致 */
+  max-width: min(calc(var(--read) + 12ch), 100%);
+  text-align: center;                  /* 置中 */
+}
+
+.markdown-body .md-figure > img {
+  display: block;
+  margin: 0 auto;                      /* 圖片本身貼齊上方，去掉原本 img 的外距 */
+  border-radius: .6rem;                /* 與原本一致 */
+}
+
+/* 讓有 figure 的圖片不再另外套用單張 img 的外距，避免 caption 與圖片分開 */
+.markdown-body .md-figure > img + .md-figcaption {
+  margin-top: .45rem;                  /* 與圖片「貼近」 */
+}
+
+/* 說明文字（light/dark 都清楚） */
+.markdown-body .md-figcaption {
+  font-size: .95rem;
+  line-height: 1.45;
+  /* 使用 muted，再稍微再淡一點點（兩邊主題都好看） */
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
+}
+
+/* Dark mode：略微提高對比，避免太淡 */
+html[data-theme="dark"] .markdown-body .md-figcaption {
+  color: color-mix(in srgb, var(--text) 65%, transparent);
+}
+
+/* dark mode 下 figure 裡的 img 延用你的背板與邊框 */
+html[data-theme="dark"] .markdown-body .md-figure > img {
+  background: #e5e7eb;
+  border: 1px solid #374151;
+  padding: 6px;
+}
+
+
 /* === Home hero（單一底色，左文右圖卡） === */
 /* 調整 hero 版面與間距 */
 .home-hero {
