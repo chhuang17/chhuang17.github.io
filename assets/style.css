@@ -997,80 +997,76 @@ html[data-theme="dark"] .metric-strip li:hover {
 }
 
 
-/* 專長三欄 */
-/* .expertise-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1rem; margin: .5rem 0 1.25rem;
+/* === Contact cards (same layout style as Work Focus) === */
+#contact {
+  margin-bottom: clamp(7.2rem, 5vh, 3.6rem);
 }
-@media (max-width: 920px) { .expertise-grid { grid-template-columns: 1fr; } }
-.expertise-grid h4 {
-  margin: .1rem 0 .4rem;
-  font-family: var(--font-ui), var(--font-cjk), sans-serif;
-  font-weight: 800;
-} */
-/* ===== Expertise：表格版 ===== */
-.expertise-table {
-  width:100%; border-collapse: collapse; margin: .75rem 0 1.5rem;
-  font-size: 1rem; table-layout: fixed;
+#contact h2 {
+  margin-bottom: 1rem;
 }
-.expertise-table th, .expertise-table td {
-  border:1px solid var(--border);
-  padding:.75rem .9rem; vertical-align: top;
-}
-.expertise-table th {
-  text-align:left; font-weight:800;
-  font-family: var(--font-ui), var(--font-cjk), sans-serif;
-  background: color-mix(in srgb, var(--text) 6%, transparent);
-}
-.expertise-table td { color: var(--text); }
 
-/* Gallery teaser（把生活面導去獨立頁） */
-/* .gallery-teaser {
-  display: grid; grid-template-columns: 1fr 220px; gap: 1rem;
-  align-items: center;
-  padding: .9rem; border: 1px solid var(--border); border-radius: .9rem; background: var(--card);
-  margin: .8rem 0 1.6rem;
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
-@media (max-width: 920px) { .gallery-teaser { grid-template-columns: 1fr; } }
-.gallery-teaser img {
-  width: 100%; height: 160px; object-fit: cover; border-radius: .6rem;
-}
-.gallery-teaser p { margin: 0; }
-.gallery-teaser a { margin-left: .35rem; color: var(--brand); text-decoration: none; }
-.gallery-teaser a:hover { text-decoration: underline; } */
 
-.gallery-section > h2 { margin-bottom: .9rem; }
-
-/* 略放鬆 Expertise 表格的上下節奏 */
-.expertise-table { margin: 1rem 0 1.8rem; }
-
-/* Gallery：兩欄＋縮圖 */
-.gallery-row{
-  display:grid;
-  grid-template-columns: 480px 1fr;      /* 左 480px 縮圖，右側文字彈性 */
-  gap: 1.1rem;
-  align-items: center;
-}
-@media (max-width: 900px){ .gallery-row{ grid-template-columns: 1fr; } }
-
-.gallery-thumb{
-  width: 100%;
-  aspect-ratio: 16 / 9;                   /* 固定比例避免拉扯，可改 16/9 */
-  overflow: hidden;
-  border-radius: .6rem;
+.contact-card {
   border: 1px solid var(--border);
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+html[data-theme="dark"] .contact-card {
   background: var(--card);
 }
-.gallery-thumb img{
-  width: 100%; height: 100%;
-  object-fit: cover;                     /* 縮圖裁切、不中斷比例 */
-  display:block;
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-.gallery-copy h3{ margin: 0 0 .25rem; }
-.gallery-copy p{ margin: 0; }
-.gallery-copy a{ color: var(--brand); text-decoration: none; }
-.gallery-copy a:hover{ text-decoration: underline; }
 
+.contact-icon {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 1rem;
+  color: var(--brand);
+}
+.contact-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.contact-card h3 {
+  font-weight: 800;
+  margin: 0 0 .5rem;
+  font-family: var(--font-ui), var(--font-cjk), sans-serif;
+}
+
+.contact-card p {
+  margin: 0 0 1rem;
+  color: var(--text);
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.contact-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: .06em;
+  text-underline-offset: .3em;
+  text-decoration-color: color-mix(in srgb, var(--text) 35%, transparent);
+}
+.contact-link:hover {
+  color: var(--brand);
+  text-decoration-style: solid;
+  text-decoration-color: var(--brand);
+}
 
 
 /* ======================= RWD ======================= */
