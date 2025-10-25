@@ -838,9 +838,11 @@ html[data-theme="light"] .exp-dot {
 
 /* Tab icons：只用線條、不填色，隨文字顏色變化 */
 .tabs .tablist .i {
-  width: 20px; height: 20px;
+  width: 22px;             /* 原 20 → 22，視覺更穩 */
+  height: 22px;
   display: inline-block;
-  opacity: .8;              /* 未選取更低調 */
+  opacity: .8;             /* 未選取更低調 */
+  /* Lucide 默認 stroke=2、stroke-linecap/linejoin 圓角；吃 currentColor */
 }
 
 /* 啟用狀態（底線條） */
@@ -890,13 +892,21 @@ html[data-theme="light"] .exp-dot {
   background: transparent;
   border:1px solid var(--border);
   border-radius:.7rem;
-  padding:.8rem 1rem;
+  padding: .9rem 1.05rem;  /* 微放厚度，字距更舒適 */
   font-weight:700;
   letter-spacing:-0.01em;
+  display: flex;           /* 確保 icon 與文字齊排 */
+  align-items: center;
+  gap: .6rem;
 }
 
 /* chip 前導 icon（線條） */
-.chip .ci { width: 18px; height: 18px; flex: 0 0 18px; opacity: .85; }
+.chip .ci { 
+  width: 20px;             /* 原 18 → 20，較醒目 */
+  height: 20px;
+  flex: 0 0 20px;
+  opacity: .9;
+}
 .chip .ct { line-height: 1.4; }
 
 
