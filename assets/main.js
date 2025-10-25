@@ -80,3 +80,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sections.forEach(s => io.observe(s));
 });
+
+
+// --- Email 防爬：把 data-user / data-domain 組成 mailto ---
+(function () {
+  const a = document.querySelector('#contact .email');
+  if (!a) return;
+  const user = a.getAttribute('data-user');
+  const domain = a.getAttribute('data-domain');
+  if (user && domain) {
+    const addr = `${user}@${domain}`;
+    a.href = `mailto:${addr}`;
+    a.textContent = addr; // 直接顯示完整 email（也可改成「Email」）
+  }
+})();
+
+// --- Scroll reveal（保底：若站上已實作，這段不會衝突） ---
+(function () {
+  const nodes = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !nodes.length) {
+    nodes.forEach(n => n.classList.add('is-visible'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  nodes.forEach(n => io.observe(n));
+})();
+
