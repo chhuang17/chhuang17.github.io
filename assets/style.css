@@ -573,7 +573,7 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   margin-top: clamp(2.2rem, 4.5vh, 3.2rem);
 }
 .about-full + .about-full {
-  margin-top: clamp(2.4rem, 5vh, 3.6rem);
+  margin-top: clamp(7.2rem, 5vh, 3.6rem);
 }
 /* 第一段長文（From Engineering to Data）到下個區塊的距離再多一點 */
 .about-grid + .about-full {
@@ -715,6 +715,14 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   background: var(--brand);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent);
 }
+/* 💡 Light mode：改成柔和藍 + 更輕的外圈，視覺融入背景 */
+html[data-theme="light"] .exp-dot {
+  /* background: #3b82f6; blue-500 */
+  background: #3b82f6; /* blue-500 */
+  /* box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); 淡淡外圈 */
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); /* 淡淡外圈 */
+  border: 1px solid rgba(59, 130, 246, 0.35);     /* 讓邊界更精緻 */
+}
 .exp-time {
   display: inline-block;
   font-family: var(--font-ui), var(--font-cjk), sans-serif;
@@ -760,6 +768,194 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
   background: var(--card); border: 1px solid var(--border); border-radius: .8rem; padding: .9rem;
 }
 .timeline .node ul { margin: .4rem 0 0 1.2rem; }
+
+
+/* —— Tighten spacing only for the Skills section —— */
+/* Skills 標題與 tabs 的距離縮小 */
+#skills > h2 {
+  /* 原本: margin: 1.6em 0 clamp(.9em, 1.4vw, 1.2em) */
+  margin-bottom: .35em;        /* 收緊底部間距 */
+}
+
+/* Tabs 與標題之間幾乎貼齊，保留底線指示 */
+#skills .tabs {
+  margin-top: 0;               /* 原本 .4rem */
+}
+
+
+/* ===== Tabs (Notion-like) ===== */
+.tabs {
+  position: relative;
+  /* display: grid; */
+  grid-template-columns: auto auto auto 1fr; /* 三個 tab + 右側彈性空間 */
+  align-items: end;
+  gap: .5rem 1rem;
+  margin-top: .4rem;
+  --tab-accent: var(--brand);
+  /* border-bottom: 1px solid var(--border); */
+  /* padding-bottom: .25rem; */
+}
+
+/* 隱藏 radio 本體，但保留可聚焦性由 label 承擔 */
+.tabs input { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+
+/* Tab 外觀 */
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .45rem .8rem;
+  border-radius: .7rem;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 85%, var(--card));
+  font-weight: 700;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  user-select: none;
+  --tab-accent: var(--brand);
+}
+
+.tabs .tablist{
+  display:flex; gap:.6rem;
+  border-bottom:1px solid var(--border);
+  margin-bottom:.85rem;
+}
+.tabs .tablist label{
+  position:relative;
+  padding:.55rem .9rem .7rem;
+  cursor:pointer;
+  color: var(--text);
+  background: transparent;     /* 無外框、無底色 */
+  border:0;
+  border-radius:.5rem;
+  font-weight: 700;
+  opacity:.75;
+  display:inline-flex; gap:.55rem; align-items:center;
+}
+.tabs .tablist label .i{ font-size:1.05em; line-height:1; }
+.tabs .tablist label:hover{ opacity:.95; }
+
+/* Tab icons：只用線條、不填色，隨文字顏色變化 */
+.tabs .tablist .i {
+  width: 22px;             /* 原 20 → 22，視覺更穩 */
+  height: 22px;
+  display: inline-block;
+  opacity: .8;             /* 未選取更低調 */
+  /* Lucide 默認 stroke=2、stroke-linecap/linejoin 圓角；吃 currentColor */
+}
+
+/* 啟用狀態（底線條） */
+#tab-software:checked ~ .tablist label[for="tab-software"],
+#tab-expertise:checked ~ .tablist label[for="tab-expertise"],
+#tab-language:checked  ~ .tablist label[for="tab-language"]{
+  opacity:1;
+}
+#tab-software:checked ~ .tablist label[for="tab-software"] .i,
+#tab-expertise:checked ~ .tablist label[for="tab-expertise"] .i,
+#tab-language:checked  ~ .tablist label[for="tab-language"] .i {
+  opacity: 1;
+}
+
+/* 底線指示（你提到要保留的那條） */
+#tab-software:checked ~ .tablist label[for="tab-software"]::after,
+#tab-expertise:checked ~ .tablist label[for="tab-expertise"]::after,
+#tab-language:checked  ~ .tablist label[for="tab-language"]::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:-1px;
+  height:3px; background: var(--tab-accent);
+  border-radius: 3px;
+}
+
+/* 面板切換（純 CSS） */
+.tabs .panels .panel{ display:none; }
+#tab-software:checked ~ .panels #panel-software{ display:block; }
+#tab-expertise:checked ~ .panels #panel-expertise{ display:block; }
+#tab-language:checked  ~ .panels #panel-language { display:block; }
+
+/* ===== 3 欄 chip grid ===== */
+.chip-grid{
+  list-style:none; padding:0; margin:0;
+  display:grid; gap:.85rem 1rem;
+}
+.chip-grid.three{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+
+@media (max-width: 980px){
+  .chip-grid.three{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 560px){
+  .chip-grid.three{ grid-template-columns: 1fr; }
+}
+
+/* Notion 風小卡（與範例一致：輕邊框+柔和圓角） */
+.chip{
+  background: transparent;
+  border:1px solid var(--border);
+  border-radius:.7rem;
+  padding: .9rem 1.05rem;  /* 微放厚度，字距更舒適 */
+  font-weight:700;
+  letter-spacing:-0.01em;
+  display: flex;           /* 確保 icon 與文字齊排 */
+  align-items: center;
+  gap: .6rem;
+}
+
+/* chip 前導 icon（線條） */
+.chip .ci { 
+  width: 20px;             /* 原 18 → 20，較醒目 */
+  height: 20px;
+  flex: 0 0 20px;
+  opacity: .9;
+}
+.chip .ct { line-height: 1.4; }
+
+
+/* ===== Notion-style cards：亮色透明、暗色有背板 ===== */
+
+/* 預設（亮色主題）：透明底、細邊框 */
+.feature-card,
+.chip,
+.metric-strip li {
+  background: transparent;
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+/* 深色主題：維持 var(--card) 背板，閱讀性更好 */
+html[data-theme="dark"] .feature-card,
+html[data-theme="dark"] .chip,
+html[data-theme="dark"] .metric-strip li {
+  background: var(--card);
+}
+
+/* Hover 效果：兩邊都只是淡淡提亮，不突兀 */
+.feature-card:hover,
+.chip:hover,
+.metric-strip li:hover {
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+html[data-theme="dark"] .feature-card:hover,
+html[data-theme="dark"] .chip:hover,
+html[data-theme="dark"] .metric-strip li:hover {
+  background: color-mix(in srgb, var(--card) 85%, var(--text) 8%);
+}
+
+/* Work Focus 連結：低調底線，hover 才用品牌色（兩主題一致） */
+.feature-link{
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: .06em;
+  text-underline-offset: .3em;
+  text-decoration-color: color-mix(in srgb, var(--text) 35%, transparent);
+}
+.feature-link:hover{
+  color: var(--brand);
+  text-decoration-style: solid;
+  text-decoration-color: var(--brand);
+}
+
 
 /* 專長三欄 */
 /* .expertise-grid {
