@@ -11,7 +11,7 @@ cover_backdrop: false
 
 ##### Highlights: Traveling Salesman Problem, Hamiltonian Path, Operations Research
 
-![TSP 示意圖](/posts/shp-intro/tsp.png)
+![](/posts/shp-intro/tsp.png "Traveling Salesman Problem: All points would be visited only once and finally return to the start point.")
 
 <!-- 指定不要背板 -->
 <!-- <img src="/posts/shp-intro/tsp.png" alt="Shortest Hamiltonian Path" class="no-backdrop"> -->
@@ -86,7 +86,7 @@ $$
 
 我們可以對這個模式求解，同樣也能求得一組最佳解，接著將結果繪製如下：
 
-![](/posts/shp-intro/subtour-example.png)
+![](/posts/shp-intro/subtour-example.png "Example of the Subtour. This solution fulfills all constraints, but you might not be glad to see it.")
 <br>
 
 
