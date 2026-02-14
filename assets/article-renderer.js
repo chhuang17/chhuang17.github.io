@@ -92,30 +92,49 @@
   window.renderArticle = async function (opts) {
     var contentPath = opts.contentPath;
     var holderId    = opts.holderId || 'content';
+    var holder      = document.getElementById(holderId);
 
-    var resp = await fetch(contentPath, { cache: 'no-store' });
-    var md = await resp.text();
+    try {
+      var resp = await fetch(contentPath, { cache: 'no-store' });
+      if (!resp.ok) {
+        throw new Error('Failed to load article: ' + resp.status);
+      }
 
-    // Strip front-matter
-    if (md.startsWith('---')) {
-      var end = md.indexOf('\n---');
-      if (end !== -1) md = md.slice(end + 4);
+      var md = await resp.text();
+
+      // Strip front-matter
+      if (md.startsWith('---')) {
+        var end = md.indexOf('\n---');
+        if (end !== -1) md = md.slice(end + 4);
+      }
+
+      var html = marked.parse(md);
+      if (holder) {
+        holder.innerHTML = html;
+      }
+
+      // Wrap images with figure + caption
+      if (holder) {
+        wrapImagesWithCaptions(holder);
+      }
+
+      // Typeset math
+      if (holder && window.MathJax && MathJax.typesetPromise) {
+        await MathJax.typesetPromise([holder]);
+      }
+
+      // Update page title from first h1
+      if (holder) {
+        var h1 = holder.querySelector('h1');
+        if (h1) document.title = h1.textContent + '｜Chien-Hao Huang';
+      }
+    } catch (e) {
+      if (holder) {
+        holder.innerHTML = '<p>Failed to load article content. Please try again later.</p>';
+      }
+      if (console && typeof console.error === 'function') {
+        console.error(e);
+      }
     }
-
-    var html = marked.parse(md);
-    var holder = document.getElementById(holderId);
-    holder.innerHTML = html;
-
-    // Wrap images with figure + caption
-    wrapImagesWithCaptions(holder);
-
-    // Typeset math
-    if (window.MathJax && MathJax.typesetPromise) {
-      await MathJax.typesetPromise([holder]);
-    }
-
-    // Update page title from first h1
-    var h1 = holder.querySelector('h1');
-    if (h1) document.title = h1.textContent + '｜Chien-Hao Huang';
   };
 })();
