@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&family=Noto+Serif+TC:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
+  <script src="/assets/components.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   
   <!-- MathJax 設定：支援 $...$ / $$...$$ / \(...\) / \[...\] -->
@@ -29,26 +30,15 @@
   <script id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="/">Chien-Hao Huang</a>
-    <nav class="nav">
-      <a href="/">Home</a>
-      <a href="/about/">About</a>
-      <a href="/projects/" aria-current="page">Projects</a>
-      <a href="/blog/">Blog</a>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="切換主題">🌓</button>
-    </nav>
-  </header>
+<body data-page="projects">
+  <header class="site-header"></header>
 
   <main class="container">
     <article class="post markdown-body" id="content"></article>
     <p><a href="/projects/">← 回到 Projects</a></p>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Chien-Hao Huang · Hosted on GitHub Pages</p>
-  </footer>
+  <footer class="site-footer"></footer>
 
   <script>
     marked.setOptions({ mangle: false, headerIds: false });

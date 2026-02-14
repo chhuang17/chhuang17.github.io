@@ -7,28 +7,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
+  <script src="/assets/components.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="/">Chien-Hao Huang</a>
-    <nav class="nav">
-      <a href="/">Home</a>
-      <a href="/about/">About</a>
-      <a href="/projects/" aria-current="page">Projects</a>
-      <a href="/blog/">Blog</a>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="切換主題">🌓</button>
-    </nav>
-  </header>
+<body data-page="projects">
+  <header class="site-header"></header>
 
   <main class="container">
     <h1>Projects</h1>
     <section id="post-list" class="post-feed"></section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Chien-Hao Huang · Hosted on GitHub Pages</p>
-  </footer>
+  <footer class="site-footer"></footer>
 
   <script>
     // 在這裡列出你的文章資料夾名稱（之後新增文章時只要 push 新資料夾並把 slug 加進來）
