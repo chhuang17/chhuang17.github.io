@@ -51,7 +51,8 @@ async function loadPost(slug, basePath) {
   var tmp = document.createElement('div');
   tmp.innerHTML = html;
   var mdH1 = (tmp.querySelector('h1') || {}).textContent || '';
-  var mdImg = (tmp.querySelector('img') || {}).getAttribute && tmp.querySelector('img').getAttribute('src') || '';
+  var imgEl = tmp.querySelector('img');
+  var mdImg = imgEl ? (imgEl.getAttribute('src') || '') : '';
 
   var title   = meta.title || mdH1.trim() || slug;
   var date    = meta.date ? fmtDate(meta.date) : '';
