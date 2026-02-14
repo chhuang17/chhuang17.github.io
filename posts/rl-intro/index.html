@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Highway Traffic Forecast</title>
+  <title>Reinforcement Learning Intro</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- 英文/數學 → Source Serif 4；中文 → Noto Serif TC；標題/介面 → Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&family=Noto+Serif+TC:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
@@ -35,15 +35,15 @@
     <nav class="nav">
       <a href="/">Home</a>
       <a href="/about/">About</a>
-      <a href="/projects/" aria-current="page">Projects</a>
-      <a href="/blog/">Blog</a>
+      <a href="/projects/">Projects</a>
+      <a href="/blog/" aria-current="page">Blog</a>
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="切換主題">🌓</button>
     </nav>
   </header>
 
   <main class="container">
     <article class="post markdown-body" id="content"></article>
-    <p><a href="/projects/">← 回到 Projects</a></p>
+    <p><a href="/blog/">← 回到 Blog</a></p>
   </main>
 
   <footer class="site-footer">
@@ -124,7 +124,7 @@
 
     async function load() {
       // 加上 no-store 避免把舊 content.md cache 住
-      const resp = await fetch('/project/highway-traffic-forecast/content.md', { cache: 'no-store' });
+      const resp = await fetch('/posts/rl-intro/content.md', { cache: 'no-store' });
       let md = await resp.text();
 
       // 去掉 front-matter
