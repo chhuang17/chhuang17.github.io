@@ -7,106 +7,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
+  <script src="/assets/components.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="/assets/feed-loader.js"></script>
 </head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="/">Chien-Hao Huang</a>
-    <nav class="nav">
-      <a href="/">Home</a>
-      <a href="/about/">About</a>
-      <a href="/projects/">Projects</a>
-      <a href="/blog/" aria-current="page">Blog</a>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="切換主題">🌓</button>
-    </nav>
-  </header>
+<body data-page="blog">
+  <header class="site-header"></header>
 
   <main class="container">
     <h1>Blog</h1>
     <section id="post-list" class="post-feed"></section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Chien-Hao Huang · Hosted on GitHub Pages</p>
-  </footer>
+  <footer class="site-footer"></footer>
 
   <script>
-    // 在這裡列出你的文章資料夾名稱（之後新增文章時只要 push 新資料夾並把 slug 加進來）
-    const slugs = ["shp-intro"];
-
-    function fmtDate(iso) {
-      try {
-        return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-      } catch { return ""; }
-    }
-    
-    async function loadPost(slug) {
-      const resp = await fetch(`/posts/${slug}/content.md`);
-      if (!resp.ok) return null;
-      let md = await resp.text();
-
-      // 解析 front-matter（只支援最常見鍵）
-      const meta = {};
-      if (md.startsWith('---')) {
-        const end = md.indexOf('\n---');
-        if (end !== -1) {
-          const fm = md.slice(3, end).trim();
-          fm.split('\n').forEach(line => {
-            const i = line.indexOf(':');
-            if (i > -1) meta[line.slice(0, i).trim()] = line.slice(i + 1).trim();
-          });
-          md = md.slice(end + 4);
-        }
-      }
-
-      // 從 MD 取 title/cover 的 fallback（避免漏填）
-      const html = marked.parse(md);
-      const tmp = document.createElement('div');
-      tmp.innerHTML = html;
-      const mdH1    = tmp.querySelector('h1')?.textContent?.trim();
-      const mdImg   = tmp.querySelector('img')?.getAttribute('src');
-
-      const title   = meta.title || mdH1 || slug;
-      const date    = meta.date ? fmtDate(meta.date) : "";
-      const excerpt = meta.excerpt || ""; // ✅ 以你寫的 excerpt 為準，不抓內文
-      const cover   = meta.cover || mdImg || "";
-      const coverBackdrop = (meta.cover_backdrop ?? 'true').toString().toLowerCase();
-      const noBackdrop = (coverBackdrop === 'false' || coverBackdrop === '0');
-
-      return { slug, title, date, excerpt, cover };
-    }
-
-    (async () => {
-      const feed = document.getElementById('post-list');
-      for (const slug of slugs) {
-        const p = await loadPost(slug);
-        if (!p) continue;
-
-        // 整張卡片可點進文章
-        const card = document.createElement('article');
-        card.className = 'post-card';
-        card.role = 'link';
-        card.tabIndex = 0;
-        card.onclick = () => location.href = `/posts/${p.slug}/`;
-        card.onkeypress = (e) => (e.key === 'Enter') && card.click();
-
-        card.innerHTML = `
-          <div class="post-content">
-            <h3 class="post-title">${p.title}</h3>
-            ${p.date ? `<div class="meta">${p.date}</div>` : ''}
-            ${p.excerpt ? `<p class="excerpt">${p.excerpt}</p>` : ''}
-          </div>
-          ${
-            p.cover
-              ? `<div class="thumb-wrap ${p.noBackdrop}">
-                  <img class="post-thumb" src="${p.cover}" alt="${p.title}">
-                </div>`
-              : `<div></div>`
-          }
-        `;
-        feed.appendChild(card);
-      }
-    })();
+    loadFeed({
+      slugs: ["shp-intro"],
+      basePath: "/posts",
+      containerId: "post-list"
+    });
   </script>
 </body>
 </html>

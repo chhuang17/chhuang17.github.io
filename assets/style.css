@@ -5,7 +5,7 @@
 --card: #f5f7fb;
 --border: #e5e7eb;
 --brand: #2563eb; /* blue-600 */
---wrap: 1440px;
+--wrap: 1280px;
 --header-h: 64px;
 --footer-h: 40px;
 --exp-gap: 2.1rem;
@@ -45,6 +45,12 @@ background: var(--bg);
 color: var(--text);
 line-height: 1.7;
 
+/* Sticky footer 佈局 */
+display: flex;
+min-height: 100vh;
+flex-direction: column;
+}
+
 /* UI 與導覽（英文字仍用你現在的 UI 無襯線；中文字自動用黑體） */
 .brand, .nav, .btn, button,
 h1, h2, h3, h4, h5, h6 {
@@ -74,22 +80,12 @@ h1, h2, h3, h4, h5, h6 {
     sans-serif;
 }
 
-/* Sticky footer 佈局 */
-display: flex;
-min-height: 100vh;
-flex-direction: column;
-}
-
 
 .container {
   max-width: var(--wrap);
   margin-inline: auto;
   padding-inline: 1rem; /* 預防手機邊緣被貼齊 */
 }
-@media (min-width: 1920px) { .container { max-width: 1440px; } }
-
-/* Macbook */
-@media (min-width: 957px) { .container { max-width: 1440px; } }
 
 
 /* 列表頁（Blog/Projects）整體的上下留白：讓它不會貼上緣 */
@@ -1070,33 +1066,31 @@ html[data-theme="dark"] .contact-card {
 
 
 /* ======================= RWD ======================= */
-/* 超大螢幕時再放寬一點點，看起來更平衡（可選） */
-@media (min-width: 1440px){
-  :root { --wrap: 1280px; }
-  .home-hero{
-    grid-template-columns: minmax(560px, 1fr) minmax(560px, 1fr);
-    gap: clamp(4rem, 7vw, 7rem);
+
+/* --- Narrow laptops / large tablets (≤ 1100px) ---
+   Home hero grid minmax(520px) overflows below ~1100px;
+   switch to single-column and resize photo card.
+*/
+@media (max-width: 1100px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+    text-align: left;
+    min-height: auto;
+    padding-block: clamp(1.5rem, 6vh, 3rem);
+    margin: 0 auto;
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .photo-card  { justify-self: center; }
+  .photo-frame { justify-self: center; }
+  .photo-frame img {
+    width: min(100%, 400px);
+    height: auto;
   }
 }
 
-
-/* 手機直欄 */
-/* @media (max-width: 720px) { .post-card { grid-template-columns: 1fr; } } */
-/* 超大螢幕稍微放寬 */
-@media (min-width: 1400px) {
-  :root { --wrap: 1280px; }
-  .post-card {
-    grid-template-columns: minmax(min(48ch, 100%), 1fr) 260px;
-    gap: clamp(1.25rem, 2.5vw, 2rem);
-  }
-}
-@media (max-width: 480px) {
-  .site-footer {
-    font-size: .85rem;
-    padding-top: .45rem;
-    padding-bottom: .45rem;
-  }
-}
+/* --- Tablets / small screens (≤ 840px) ---
+   Post cards → single column; about grid handled at 920px.
+*/
 @media (max-width: 840px) {
   .post-card {
     grid-template-columns: 1fr;
@@ -1108,18 +1102,78 @@ html[data-theme="dark"] .contact-card {
   .post-thumb {
     height: 190px;
   }
-  .home-hero { 
-    grid-template-columns: 1fr;
-    text-align: left;
-    /* ⬇️ 小螢幕不勉強填滿高度，避免擠壓 */
+}
+
+/* --- Mobile (≤ 640px) ---
+   Header wraps to two lines; font sizes scale down.
+*/
+@media (max-width: 640px) {
+  .site-header {
+    flex-wrap: wrap;
+    gap: .4rem;
     min-height: auto;
-    padding-block: clamp(1.25rem, 6vh, 3rem);
-    margin: 0 auto;
+    padding-top: .6rem;
+    padding-bottom: .6rem;
   }
-  .photo-card { justify-self: start; }
-  .photo-frame { justify-self: start; }
-  .photo-frame img { width: 100%; height: auto; }
-  .post-card { grid-template-columns: 1fr; }
+  .nav {
+    gap: .75rem;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .home-name {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  }
+  .home-summary {
+    text-align: left;
+  }
+  .photo-frame img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* --- Small mobile / iPhone 15 (≤ 480px, viewport 393px) ---
+   Tighten spacing; ensure nothing overflows.
+*/
+@media (max-width: 480px) {
+  .site-header {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+  .container {
+    padding-inline: .75rem;
+  }
+  .site-footer {
+    font-size: .85rem;
+    padding-top: .45rem;
+    padding-bottom: .45rem;
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+  .nav {
+    gap: .6rem;
+    font-size: .95rem;
+  }
+  .brand {
+    font-size: .95rem;
+  }
+  .home-role {
+    font-size: .95rem;
+  }
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .about-aside { order: -1; }
+  .exp-item {
+    grid-template-columns: 1fr;
+  }
+  .metric-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .contact-cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 
