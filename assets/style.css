@@ -12,7 +12,7 @@
 
 /* 舒適閱讀欄寬（文章內文 & 列表左欄文字） */
 --read: 72ch;                 /* 大約 70-75 字元寬 */
---read-content: 90ch;
+--read-content: 52rem;        /* 832px — 用 rem 確保內文與 footer 等寬 */
 --list-gap-y: clamp(1.25rem, 3vh, 2rem);
 --list-gap-x: clamp(1rem, 2vw, 1.5rem);
 
@@ -265,12 +265,12 @@ html[data-theme="dark"] .thumb-wrap.no-backdrop {
   box-shadow: none;
 }
 
-/* 文章頁（內文）閱讀欄寬：不要滿版，仍在 .container 版心內 */
+/* 文章頁（內文）閱讀欄寬：與 article-end-footer 等寬，置中 */
 .post .markdown-body,
 .markdown-body,
 .post .content {
   max-width: var(--read-content);
-  margin-inline: 0;        /* 在 container 內靠左對齊 */
+  margin-inline: auto;
 }
 
 /* 文章內的大型媒體（圖片、表格、數學）可略寬於文字欄，視覺更平衡 */
@@ -1237,6 +1237,204 @@ html[data-theme="dark"] .contact-card {
     transition: none !important;
   }
 }
+
+/* ===== Education Section ===== */
+
+
+/* ===== Article Footer (Hybrid: Recommendations + Author Bio) ===== */
+.article-end-footer {
+  max-width: var(--read-content);
+  margin: 3rem auto 0;    /* 置中對齊，與內文等寬 */
+  padding-top: 0;
+}
+
+/* Divider */
+.article-end-footer .footer-divider {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--text) 30%, transparent),
+    transparent
+  );
+  margin: 0 0 2rem;
+}
+
+/* --- Recommendation Section --- */
+.article-end-footer .rec-section-title {
+  font-family: var(--font-ui), var(--font-cjk), sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem;
+  color: var(--text);
+}
+
+.article-end-footer .rec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.article-end-footer .rec-card {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  padding: 1rem 1.15rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.article-end-footer .rec-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  border-color: var(--brand);
+}
+.article-end-footer .rec-card .rc-title {
+  font-family: var(--font-ui), var(--font-cjk), sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+.article-end-footer .rec-card .rc-desc {
+  font-size: .9rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* --- Author Section --- */
+.article-end-footer .author-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.article-end-footer .author-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 25%;
+  flex-shrink: 0;
+  border: 2px solid var(--border);
+}
+
+.article-end-footer .author-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.article-end-footer .author-name {
+  margin: 0;
+  font-family: var(--font-ui), var(--font-cjk), sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.article-end-footer .author-bio {
+  margin: .2rem 0 0;
+  font-size: .9rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.article-end-footer .author-links {
+  display: flex;
+  gap: .6rem;
+  flex-shrink: 0;
+}
+
+.article-end-footer .author-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 0;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  text-decoration: none;
+  transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
+}
+.article-end-footer .author-links a:hover {
+  color: var(--brand);
+  border-color: var(--brand);
+}
+.article-end-footer .author-links a svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* --- Back to list --- */
+.article-end-footer .back-row {
+  text-align: left;
+  padding: 1.5rem 0 3rem;
+}
+
+.article-end-footer .btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .55rem 1.2rem;
+  font-size: .9rem;
+  font-weight: 600;
+  font-family: var(--font-ui), var(--font-cjk), sans-serif;
+  color: var(--brand);
+  border: 1px solid var(--brand);
+  border-radius: .6rem;
+  text-decoration: none;
+  transition: background 150ms ease, color 150ms ease;
+}
+.article-end-footer .btn-back:hover {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* --- Responsive: Tablet (≤ 840px) --- */
+@media (max-width: 840px) {
+  .article-end-footer .rec-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Responsive: Mobile / iPhone 15 (≤ 480px) --- */
+@media (max-width: 480px) {
+  .article-end-footer {
+    margin-top: 2rem;
+  }
+  .article-end-footer .author-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .75rem;
+  }
+  .article-end-footer .author-links {
+    width: auto;
+  }
+  .article-end-footer .author-links a {
+    flex: none;
+  }
+  .article-end-footer .back-row {
+    text-align: center;
+  }
+  .article-end-footer .btn-back {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 
 /* ===== Education Section ===== */
 .education-grid {
