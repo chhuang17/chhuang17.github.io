@@ -1,6 +1,7 @@
 ---
 title: Multi-Horizon RMA Return Forecasting
-date: 2024-12-01
+date: 2025-11-21
+popularity: 95
 excerpt: Multi-horizon forecasting system designed for inventory and capacity planning. A phased rollout bridged the gap between data science and supply chain operations.
 cover_backdrop: false
 ---

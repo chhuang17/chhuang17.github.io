@@ -1,6 +1,7 @@
 ---
 title: Scalable MLOps Architecture on Kubernetes
-date: 2024-11-20
+date: 2025-07-30
+popularity: 90
 excerpt: Automated retraining pipelines using Airflow and MLflow. Featuring warm-start HPO and drift detection for delayed-label scenarios.
 cover_backdrop: false
 ---

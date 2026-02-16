@@ -183,7 +183,39 @@ section { margin: 2rem 0; }
   flex-direction: column;
   gap: var(--list-gap-y);
   padding-block: .25rem; /* 輕微間距，避免太擠 */
+  max-width: var(--wrap);
+  margin-inline: auto;
 }
+
+/* Sort bar */
+.sort-bar {
+  display: flex;
+  gap: .5rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--border);
+}
+.sort-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: .35rem .85rem;
+  font-size: .82rem;
+  font-weight: 500;
+  font-family: var(--font-ui), var(--font-cjk), sans-serif;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+.sort-btn:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+.sort-btn.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
 /* 每張卡片：兩欄（左文右圖）。右圖不要太大，避免視覺失衡 */
 .post-card {
   display: grid;

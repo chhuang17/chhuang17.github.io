@@ -1,38 +1,38 @@
 ---
 title: Shortest Hamiltonian Path
-date: 2025-10-08
-excerpt: This article demonstrates the mathematical model of the Shortest Hamiltonian Problem.
+date: 2024-09-14
+popularity: 70
+excerpt: Mathematical formulation of the Shortest Hamiltonian Path problem, with TSP comparison and subtour elimination methods.
 cover: /posts/shp-intro/tsp.png
 cover_backdrop: false
 ---
 
-最短漢米爾頓路徑問題 (I) - 數學模式說明
+The Shortest Hamiltonian Path Problem — Mathematical Formulation
 ===
 
 ##### Highlights: Traveling Salesman Problem, Hamiltonian Path, Operations Research
 
 ![](/posts/shp-intro/tsp.png "Traveling Salesman Problem: All points would be visited only once and finally return to the start point.")
 
-<!-- 指定不要背板 -->
-<!-- <img src="/posts/shp-intro/tsp.png" alt="Shortest Hamiltonian Path" class="no-backdrop"> -->
+## Introduction
 
-## 前言
-傳統的 __旅行推銷員問題 (The Traveling Salesman/Salesperson Problem)__ 是指從某一起點出發，經過所有節點後，最後再回到起點，也就是起訖點一致。但如果今天給定起點跟終點，且起訖點不同的情況下，我們有沒有辦法找到一條同樣可以經過所有節點的路徑呢？如果說給定一個起點跟一個終點，真的存在一條可以經過所有節點的路徑，這條路徑就稱之為 __漢米爾頓路徑 (Hamiltonian Path)__。
+The classic __Traveling Salesman Problem (TSP)__ asks: starting from a given origin, visit every node exactly once and return to the origin — i.e., the start and end points are the same. But what if we are given a distinct start and end point? Can we still find a path that visits every node exactly once?
 
-在現實世界中的路徑規劃，假設每個點之間彼此都能互相來往，在此情況下一定能找到一條漢米爾頓路徑，而這個假設基本上也能符合大部分的應用情境。漢米爾頓路徑可能會有兩條或以上，通常我們比較感興趣的是找出 __最短漢米爾頓路徑 (Shortest Hamiltonian Path, SHP)__。
+If such a path exists, it is called a __Hamiltonian Path__. In real-world route planning, as long as every pair of nodes is reachable from each other (a reasonable assumption for most applications), a Hamiltonian path is guaranteed to exist. Since there may be more than one, we are typically interested in finding the __Shortest Hamiltonian Path (SHP)__.
 
 
-## 模式說明
-漢米爾頓路徑跟旅行推銷員問題相當類似，因此在模式的長相也很接近。我們先回顧一下旅行推銷員的數學規劃模式建立考量的點：
+## Mathematical Formulation
 
-__旅行推銷員問題 (The Traveling Salesman/Salesperson Problem, TSP)__
-- 目標式：最小化旅行距離 / 時間 / 成本
-- 限制式 1：每個節點只能有一個流入 (flow in)
-- 限制式 2：每個節點只能有一個流出 (flow out)
-- 限制式 3：消除子迴圈 (Subtour Elimination)
+The Hamiltonian Path problem is closely related to the TSP, so their mathematical formulations share a similar structure. Let's first review the key considerations behind the TSP formulation:
 
-故 TSP 的數學規劃模式如下：
-<!-- latex 中的 & 表對齊的位置 -->
+__Traveling Salesman Problem (TSP)__
+- Objective: Minimize total travel distance / time / cost
+- Constraint 1: Each node has exactly one incoming arc (flow in)
+- Constraint 2: Each node has exactly one outgoing arc (flow out)
+- Constraint 3: Subtour Elimination
+
+The integer programming formulation for the TSP is:
+
 $$
 \begin{aligned}
     \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\\\
@@ -44,13 +44,13 @@ $$
 \end{aligned}
 $$
 
-而在 __最短漢米爾頓路徑問題 (The Shortest Hamiltonian Path Problem, SHPP)__，我們需要將 TSP 的限制式 1 跟限制式 2 進行調整：
+For the __Shortest Hamiltonian Path Problem (SHPP)__, we modify Constraints 1 and 2 as follows:
 
-> __*在限制式 1 的部分，除了起點外，每個節點只能有一個流入，且起點的流入為 0。
-> 在限制式 2 的部分，除了終點外，每個節點只能有一個流出，且終點的流出為 0。*__
+> __*Constraint 1: Every node except the origin must have exactly one incoming arc; the origin has zero incoming arcs.
+> Constraint 2: Every node except the destination must have exactly one outgoing arc; the destination has zero outgoing arcs.*__
 
-故 SHPP 的數學規劃模式如下，相較於 TSP，多加上了兩條限制式：
-<!-- latex 中的 & 表對齊的位置 -->
+The SHPP formulation therefore adds two extra constraints compared to the TSP:
+
 $$
 \begin{aligned}
     \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\\\
@@ -64,15 +64,13 @@ $$
 \end{aligned}
 $$
 
-<!-- 以上這些東西，可以直接利用 [Google OR-Tools 提供的範例程式碼](https://colab.research.google.com/github/google/or-tools/blob/stable/examples/notebook/constraint_solver/vrp_starts_ends.ipynb?hl=zh-tw) 並稍作修改，即可求解漢米爾頓路徑 [(說明點此)](https://developers.google.com/optimization/routing/routing_tasks?hl=zh-tw#setting_start_and_end_locations_for_routes)。
 
-用圖片來說明更加實在，假設起點、終點，及其他節點的位置如下圖所示，我們將所有點編號為 1-11，點 1 為起點，點 11 為終點。 -->
+## Subtour Elimination
 
+Readers new to TSP may find the subtour elimination constraint puzzling. Why is it necessary? What happens if we omit it?
 
-## 消除子迴圈 (Subtour Elimination)
-如果是初學 TSP 的讀者，也許會對消除子迴圈限制式感到相當困惑。為什麼要加上消除子迴圈限制式呢？如果不加諸此一限制式，又會有什麼結果？
+Using the SHPP as an example, here is the formulation *without* subtour elimination:
 
-我們以 SHPP 為例，以下為不加上消除子迴圈限制式的數學規劃模式：
 $$
 \begin{aligned}
     \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\\\
@@ -84,32 +82,33 @@ $$
 \end{aligned}
 $$
 
-我們可以對這個模式求解，同樣也能求得一組最佳解，接著將結果繪製如下：
+Solving this model still yields an optimal solution. However, the result looks like this:
 
 ![](/posts/shp-intro/subtour-example.png "Example of the Subtour. This solution fulfills all constraints, but you might not be glad to see it.")
 <br>
 
+Every node (except the origin and destination) satisfies the one-in, one-out constraint, the origin has only outgoing arcs, and the destination has only incoming arcs — all constraints are met. Yet the solution is clearly not what we want. The disconnected loops are called __subtours__. We need to break every subtour and link all nodes into a single path. Two common subtour elimination approaches are described below.
 
-除了起點跟終點外，每個節點都滿足一個流入跟一個流出，且起點只有流出，終點只有流入，確實滿足上面所有的限制式，但顯然這樣的結果並非我們要的。這些四處自成一組小圈圈的稱之為子迴圈 (或稱子迴路, subtour)。因此，我們希望能夠將每個子迴圈打破，讓他們通通串在一起。常見的消除子迴圈方式有兩種，以下分別說明：
+### Exhaustive Enumeration
 
-### 窮舉法
-沿用上面的圖方便說明，假設所有的點集合 $V=\{1,2,\cdots,11\}$，我們可以從中任選至少兩點，且不等於 $V$ 的子集 $S$，即 $\forall S\subsetneq V,\space |S|\geq 2$。
+Using the figure above, let the full node set be $V=\{1,2,\cdots,11\}$. We select every proper subset $S$ of $V$ with $|S|\geq 2$, i.e., $\forall S\subsetneq V,\space |S|\geq 2$.
 
-依上述定義，如 $S_{1}=\{2,5,7\}$、$S_{2}=\{3,8\}$、$S_{3}=\{1,4,9,10,11\}$ 等都屬於合法子集；而像是 $S_{4}=\{5\}$ 或 $S_{5}=\{6\}$ 就不是合法子集。
+For example, $S_{1}=\{2,5,7\}$, $S_{2}=\{3,8\}$, and $S_{3}=\{1,4,9,10,11\}$ are valid subsets, whereas $S_{4}=\{5\}$ or $S_{5}=\{6\}$ are not (too small).
 
-窮舉法的想法相當簡單，就是任選 $m$ 個點，也就是 $|S|=m$，這 $m$ 個點之間至多只能存在 $m-1$ 條路徑，寫成數學式就長下面這樣：
+The idea is straightforward: among any $m$ selected nodes ($|S|=m$), at most $m-1$ arcs may exist between them:
 
 $$
 \sum_{i\in S,\space j\in S,\space i\neq j} x_{ij}\leq |S|,\space \forall S\subsetneq V,\space |S|\geq 2
 $$
 
-但此法的缺點是當求解的點愈多，子迴圈限制式的數量會呈指數成長。假設共有 $n$ 個點，則需要 $2^{n}-n-2$ 條子迴圈限制式。
-<!-- https://youtu.be/-m7ASCB0a8E?si=fumzy2GTaNJ3k4EF -->
+The downside is that the number of subtour elimination constraints grows exponentially with the number of nodes. For $n$ nodes, we need $2^{n}-n-2$ such constraints.
 
-### MTZ 限制式 (Miller-Tucker-Zemlin Constraints)
-由 Miller, Tucker, Zemlin 三位學者共同提出，在此限制式中，再引入決策變數 $u_{i}$，$\forall i = 1, 2, \cdots n$，$u_{i} \geq 0$ 且 $\space u_{i} \in \mathcal{N}$。這個 **$u_{i}$ 是次序的概念，表示點 $i$ 是路徑中的第幾個被訪問的點**，舉例來說，$u_{2}=8$ 表示點 2 是路徑中第 8 個被訪問的點；$u_{5}=3$ 表示點 5 是路徑中第 3 個被訪問的點。
+### MTZ Constraints (Miller-Tucker-Zemlin)
 
-在 TSP 問題中，需要再加上以下三條限制式，也就是所謂的 MTZ 限制式：
+Proposed by Miller, Tucker, and Zemlin, this formulation introduces auxiliary decision variables $u_{i}$, $\forall i = 1, 2, \cdots n$, where $u_{i} \geq 0$ and $u_{i} \in \mathcal{N}$. The variable **$u_{i}$ represents the visiting order of node $i$** — for example, $u_{2}=8$ means node 2 is the 8th node visited; $u_{5}=3$ means node 5 is the 3rd node visited.
+
+For the TSP, the following three MTZ constraints are added:
+
 $$
 \begin{aligned}
     &u_{1} = 1 \\\\
@@ -118,22 +117,23 @@ $$
 \end{aligned}
 $$
 
-- $u_{1} = 1$ 表示點 1 是第 1 個被訪問的點，換句話說，點 1 就是起點。
-- $2 \leq u_{i} \leq n$ 是用來界定 $u_{i}$ 的範圍，$u_{i}$ 從 2 開始的原因是因為，我們已經處理完起點的部分了 (即 $u_{1} = 1$)。
-- $u_{i} - u_{j} + nx_{ij} \leq n - 1$: 
-  - 先將原式移項得 $u_{i} - u_{j} + 1 \leq n (1 - x_{ij})$，方便後續說明。
-  - 已知：$x_{ij} \in \{0,1\}$，若 $x_{ij}=1$，表示點 $i$ 到點 $j$ 有一條可行路徑，且順序為先經過點 $i$，再經過點 $j$，也就是 $u_{i} + 1 = u_{j}$。
-  - **Case 1: 點 $i$ 到點 $j$ 存在一條可行路徑**，代入限制式得：$$u_{i} - (u_{i}+1) + 1 \leq n (1-1) \Rightarrow 0 \leq 0$$
-  - **Case 2: 點 $i$ 到點 $j$ 之間沒有可行路徑**，代入限制式得：$$u_{i} - u_{j} + 1 \leq n (1-0) \Rightarrow u_{i} - u_{j} + 1 \leq n$$
-    - $u_{i} < u_{j}$，則 LHS 必 $\leq 0$，又 $0 \leq n$，故限制式恆成立。
-    - $u_{i} > u_{j}$，則 LHS 必 $\leq n-1$，又 $n-1 \leq n$，故限制式恆成立。
-        
-上面的說明有點抽象，舉個實際的例子可能比較好懂。假設經過最佳化求解之漢米爾頓路徑如下，圓圈內的數字表示編號：
+- $u_{1} = 1$: Node 1 is visited first — in other words, node 1 is the origin.
+- $2 \leq u_{i} \leq n$: Bounds on $u_{i}$. The lower bound starts at 2 because the origin is already handled by $u_{1} = 1$.
+- $u_{i} - u_{j} + nx_{ij} \leq n - 1$:
+  - Rearranging: $u_{i} - u_{j} + 1 \leq n (1 - x_{ij})$.
+  - Recall $x_{ij} \in \{0,1\}$. If $x_{ij}=1$, there is an arc from $i$ to $j$, meaning $i$ is visited immediately before $j$, so $u_{i} + 1 = u_{j}$.
+  - **Case 1: Arc $(i, j)$ is used** — substituting gives: $$u_{i} - (u_{i}+1) + 1 \leq n (1-1) \Rightarrow 0 \leq 0$$
+  - **Case 2: Arc $(i, j)$ is not used** — substituting gives: $$u_{i} - u_{j} + 1 \leq n (1-0) \Rightarrow u_{i} - u_{j} + 1 \leq n$$
+    - If $u_{i} < u_{j}$, then LHS $\leq 0 \leq n$ — always satisfied.
+    - If $u_{i} > u_{j}$, then LHS $\leq n-1 \leq n$ — always satisfied.
+
+The above may feel abstract, so let's walk through a concrete example. Suppose the optimal Hamiltonian path is as follows (numbers inside circles are node IDs):
 <br>
 ![](/posts/shp-intro/shp-solution.png)
 <br>
 
-由上圖之結果，最佳化求解後之路徑為 $1-8-6-7-10-9-2-3-4-5-11$，因此：
+From the figure, the optimal path is $1-8-6-7-10-9-2-3-4-5-11$, giving:
+
 $$
 \begin{aligned}
 &u_{1}=1, &x_{18}=1 \; \\\\
@@ -150,14 +150,4 @@ $$
 \end{aligned}
 $$
 
-將以上的結果代入限制式，讀者可以嘗試看看，在違反限制式的情況下，就會產生子迴圈。
-
-## 延伸閱讀
-[最短漢米爾頓路徑問題 (II) - 使用 Google OR-Tools 實作](https://hackmd.io/MhrvcvzRRziumlRCMfm6FQ)
-
-<!-- ## 實際案例
-(一) 貪婪算法：求最短路徑
-![](https://hackmd.io/_uploads/SkuoTh4fT.png)
-
-(二) 最短漢米爾頓路徑
-![](https://hackmd.io/_uploads/H1A86h4Ma.png) -->
+Try substituting these values into the constraints yourself — you'll see that violating the MTZ constraints would produce subtours.

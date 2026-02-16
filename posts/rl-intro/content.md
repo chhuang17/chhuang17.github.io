@@ -1,163 +1,123 @@
 ---
 title: Introduction to Reinforcement Learning
-date: 2025-10-08
-excerpt: This article demonstrates the mathematical model of the Shortest Hamiltonian Problem.
-cover: /posts/rl-intro/RL-workflow.webp
+date: 2024-09-12
+popularity: 60
+excerpt: An introduction to reinforcement learning fundamentals — from Markov Decision Processes to reward discounting and algorithm taxonomy.
+cover: /posts/rl-intro/rl-workflow.jpg
 cover_backdrop: false
 ---
 
 Introduction to Reinforcement Learning
 ===
 
-##### Highlights: Traveling Salesman Problem, Hamiltonian Path, Operations Research
+##### Highlights: Reinforcement Learning, Markov Decision Process, Deep Q-Network, Policy Optimization
 
-![](/posts/rl-intro/RL-workflow.webp "Source: Sutton & Barto (2018), Reinforcement Learning: An Introduction (2nd Edition Ed.)")
+![](/posts/rl-intro/rl-workflow.jpg "Source: Sutton & Barto (2018), Reinforcement Learning: An Introduction (2nd Edition)")
 
-<!-- 指定不要背板 -->
-<!-- <img src="/posts/shp-intro/tsp.png" alt="Shortest Hamiltonian Path" class="no-backdrop"> -->
+## Introduction
 
-## 前言
-Reinforcement Learning means the machine can learn 
+In machine learning, we commonly encounter supervised learning, unsupervised learning, and semi-supervised learning. **Reinforcement Learning (RL)**, on the other hand, is a paradigm where an agent learns by extensively interacting with an environment, gaining experience from those interactions. There is no labeled data in RL — instead, the agent follows its past experience and a human-designed **reward function** to discover the optimal policy.
 
-在現實世界中的路徑規劃，假設每個點之間彼此都能互相來往，在此情況下一定能找到一條漢米爾頓路徑，而這個假設基本上也能符合大部分的應用情境。漢米爾頓路徑可能會有兩條或以上，通常我們比較感興趣的是找出 __最短漢米爾頓路徑 (Shortest Hamiltonian Path, SHP)__。
+The theory behind reinforcement learning dates back to the 1980s, but it remained largely dormant due to limited computational power. It wasn't until 2013, when Google DeepMind combined deep neural networks (DNNs) with traditional Q-Learning to produce **Deep Q-Network (DQN)**, that reinforcement learning re-emerged with a fresh and powerful new face.
 
-
-## 模式說明
-漢米爾頓路徑跟旅行推銷員問題相當類似，因此在模式的長相也很接近。我們先回顧一下旅行推銷員的數學規劃模式建立考量的點：
-
-__旅行推銷員問題 (The Traveling Salesman/Salesperson Problem, TSP)__
-- 目標式：最小化旅行距離 / 時間 / 成本
-- 限制式 1：每個節點只能有一個流入 (flow in)
-- 限制式 2：每個節點只能有一個流出 (flow out)
-- 限制式 3：消除子迴圈 (Subtour Elimination)
-
-故 TSP 的數學規劃模式如下：
-<!-- latex 中的 & 表對齊的位置 -->
-$$
-\begin{aligned}
-    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\\\
-    \text{s.t.}\;& \sum_{i}x_{ij} = 1 \\\\
-    &\sum_{j}x_{ij} = 1 \\\\
-    &u_{i} - u_{j} + nx_{ij} \leq n - 1 \\\\
-    &x_{ij} \in {\{0, 1\}},\ \forall i,j = 1,2,\cdots n \\\\
-    &u_{i}, u_{j} \geq 0,\ \forall i,j = 1,2,\cdots n,\ \forall i \neq j
-\end{aligned}
-$$
-
-而在 __最短漢米爾頓路徑問題 (The Shortest Hamiltonian Path Problem, SHPP)__，我們需要將 TSP 的限制式 1 跟限制式 2 進行調整：
-
-> __*在限制式 1 的部分，除了起點外，每個節點只能有一個流入，且起點的流入為 0。
-> 在限制式 2 的部分，除了終點外，每個節點只能有一個流出，且終點的流出為 0。*__
-
-故 SHPP 的數學規劃模式如下，相較於 TSP，多加上了兩條限制式：
-<!-- latex 中的 & 表對齊的位置 -->
-$$
-\begin{aligned}
-    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\\\
-    \text{s.t.}\;& \sum_{i}x_{ij} = 1 \\\\
-    &\sum_{j}x_{ij} = 1 \\\\
-    &\sum_{i}x_{i1} = 0 \\\\
-    &\sum_{j}x_{nj} = 0 \\\\
-    &u_{i} - u_{j} + nx_{ij} \leq n - 1 \\\\
-    &x_{ij} \in {\{0, 1\}},\ \forall i,j = 1,2,\cdots n \\\\
-    &u_{i}, u_{j} \geq 0,\ \forall i,j = 1,2,\cdots n,\ \forall i \neq j
-\end{aligned}
-$$
-
-<!-- 以上這些東西，可以直接利用 [Google OR-Tools 提供的範例程式碼](https://colab.research.google.com/github/google/or-tools/blob/stable/examples/notebook/constraint_solver/vrp_starts_ends.ipynb?hl=zh-tw) 並稍作修改，即可求解漢米爾頓路徑 [(說明點此)](https://developers.google.com/optimization/routing/routing_tasks?hl=zh-tw#setting_start_and_end_locations_for_routes)。
-
-用圖片來說明更加實在，假設起點、終點，及其他節點的位置如下圖所示，我們將所有點編號為 1-11，點 1 為起點，點 11 為終點。 -->
+Before formally introducing reinforcement learning, two important concepts must be understood.
 
 
-## 消除子迴圈 (Subtour Elimination)
-如果是初學 TSP 的讀者，也許會對消除子迴圈限制式感到相當困惑。為什麼要加上消除子迴圈限制式呢？如果不加諸此一限制式，又會有什麼結果？
+## Markov Property (MP)
 
-我們以 SHPP 為例，以下為不加上消除子迴圈限制式的數學規劃模式：
-$$
-\begin{aligned}
-    \min\;& \sum_{i}\sum_{j}c_{ij}x_{ij} \\\\
-    \text{s.t.}\;& \sum_{i}x_{ij} = 1 \\\\
-    &\sum_{j}x_{ij} = 1 \\\\
-    &\sum_{i}x_{i1} = 0 \\\\
-    &\sum_{j}x_{nj} = 0 \\\\
-    &\ \forall i,j = 1,2,\cdots n
-\end{aligned}
-$$
+The [Markov Property](https://en.wikipedia.org/wiki/Markov_property) is defined as follows:
 
-我們可以對這個模式求解，同樣也能求得一組最佳解，接著將結果繪製如下：
+> When a stochastic process has the property that, given the present state and all past states, the conditional probability distribution of future states depends only on the current state — in other words, conditioned on the present, the future is independent of the past — then the process is said to possess the Markov property.
 
-![](/posts/shp-intro/subtour-example.png "Example of the Subtour. This solution fulfills all constraints, but you might not be glad to see it.")
-<br>
+In short, the Markov property means **the next state depends only on the current state** — this is known as the **memoryless** property. A stochastic process that satisfies the Markov property is called a **Markov process**, of which the [Markov chain](https://en.wikipedia.org/wiki/Markov_chain) is the most well-known example.
 
 
-除了起點跟終點外，每個節點都滿足一個流入跟一個流出，且起點只有流出，終點只有流入，確實滿足上面所有的限制式，但顯然這樣的結果並非我們要的。這些四處自成一組小圈圈的稱之為子迴圈 (或稱子迴路, subtour)。因此，我們希望能夠將每個子迴圈打破，讓他們通通串在一起。常見的消除子迴圈方式有兩種，以下分別說明：
+## Markov Decision Process (MDP)
 
-### 窮舉法
-沿用上面的圖方便說明，假設所有的點集合 $V=\{1,2,\cdots,11\}$，我們可以從中任選至少兩點，且不等於 $V$ 的子集 $S$，即 $\forall S\subsetneq V,\space |S|\geq 2$。
+A **Markov Decision Process (MDP)** is a stochastic process that satisfies the Markov property. It is a generalization of the Markov chain, describing how the next state $s'$ depends only on the current state $s$ and the chosen action $a$.
 
-依上述定義，如 $S_{1}=\{2,5,7\}$、$S_{2}=\{3,8\}$、$S_{3}=\{1,4,9,10,11\}$ 等都屬於合法子集；而像是 $S_{4}=\{5\}$ 或 $S_{5}=\{6\}$ 就不是合法子集。
+A Markov chain describes purely the stochastic process of state transitions — the next state $s'$ depends only on the current state $s$. An MDP, however, adds the notion of **action selection** $A = \{a_1, \ldots, a_n\},\ n \in \mathbb{Z}$ and **immediate reward** $R = \{r_1, \ldots, r_n\},\ n \in \mathbb{Z}$. Conversely, if each state has only one available action (i.e., $|A_k| = 1$ for all $k$), the MDP degenerates into a Markov chain.
 
-窮舉法的想法相當簡單，就是任選 $m$ 個點，也就是 $|S|=m$，這 $m$ 個點之間至多只能存在 $m-1$ 條路徑，寫成數學式就長下面這樣：
+> Reinforcement learning assumes the problem satisfies the Markov Decision Process. Therefore, before applying RL to a problem, one should first verify whether the problem itself satisfies the MDP conditions — or design experiments to transform it into one.
+
+
+## Common Terminology
+
+Here are some commonly used terms that will be helpful for the discussion that follows:
+
+- **Agent**: The entity that interacts with the environment. Think of it as a proxy that perceives and makes decisions on behalf of the operator.
+- **Environment**: A (usually simulated) world in which the agent interacts. What the environment represents depends on the problem at hand.
+- **State**: The agent perceives/observes the current environment and extracts important features to determine the current state.
+- **Action**: Based on the current state, the agent uses a policy network to choose which action to take.
+- **Reward**: After the agent executes an action, it receives a reward signal indicating how good or bad that action was in that particular state. This is sometimes also referred to as the "return" in the literature.
+- **Episode**: Agent-environment interactions are organized into episodes. The goal is to maximize the total reward accumulated in each episode. Episode lengths may be fixed or variable, depending on the problem.
+- **Policy**: The basis for the agent's action selection — it is a function. In deep RL, the policy is represented by a deep neural network (DNN). The agent feeds the current state as input to the network, which outputs the action to take.
+
+
+## Reinforcement Learning in Detail
+
+### Workflow
+
+At a high level, reinforcement learning works as follows:
+
+1. The **agent** perceives/observes the **environment** and determines the current **state** ($s$).
+2. The agent outputs the optimal **action** ($a$) according to the current **policy**.
+3. The environment provides a corresponding **reward** ($r$) and transitions to the **next state** ($s'$).
+4. Repeat steps 1–3 until the **episode** ends.
+
+The exact details vary depending on the specific algorithm. RL algorithms are diverse, but they can be broadly classified in two ways:
+
+### By Parameter Update Strategy
+
+- **Policy-Based**: e.g., REINFORCE
+- **Value-Based**: e.g., SARSA, the DQN family (DDQN, D3QN, etc.)
+- **Actor-Critic**: e.g., A2C, A3C, DDPG, PPO, SAC, etc.
+
+### By Training Paradigm
+
+- **On-Policy**: e.g., REINFORCE, SARSA, etc.
+- **Off-Policy**: e.g., DQN, DDPG, PPO, etc.
+
+You might find these terms confusing at first — What is Policy-Based? What is Actor-Critic? Why are there different training paradigms?
+
+Don't worry — just get a rough impression for now. The key takeaway is that **regardless of the algorithm, the objective is the same**:
+
+> **Maximize the cumulative reward per episode!**
+
+In conventional machine learning, the objective is typically to minimize a loss function. In reinforcement learning, the objective becomes **maximizing the cumulative reward per episode**. Suppose one episode consists of $T$ steps. Following the RL workflow described above, the process looks roughly like this:
+
+- At step 1, the cumulative return is: $G_1 = r_1 + r_2 + \cdots + r_T = \sum_{i=1}^{T} r_i$
+- At step 2, the cumulative return is: $G_2 = r_2 + r_3 + \cdots + r_T = \sum_{i=2}^{T} r_i$
+- By induction, the cumulative return at step $t$ is:
 
 $$
-\sum_{i\in S,\space j\in S,\space i\neq j} x_{ij}\leq |S|,\space \forall S\subsetneq V,\space |S|\geq 2
+G_t = r_t + r_{t+1} + \cdots + r_T = \sum_{i=t}^{T} r_i
 $$
 
-但此法的缺點是當求解的點愈多，子迴圈限制式的數量會呈指數成長。假設共有 $n$ 個點，則需要 $2^{n}-n-2$ 條子迴圈限制式。
-<!-- https://youtu.be/-m7ASCB0a8E?si=fumzy2GTaNJ3k4EF -->
+We use $G_t$ to assess the quality of the action taken at step $t$.
 
-### MTZ 限制式 (Miller-Tucker-Zemlin Constraints)
-由 Miller, Tucker, Zemlin 三位學者共同提出，在此限制式中，再引入決策變數 $u_{i}$，$\forall i = 1, 2, \cdots n$，$u_{i} \geq 0$ 且 $\space u_{i} \in \mathcal{N}$。這個 **$u_{i}$ 是次序的概念，表示點 $i$ 是路徑中的第幾個被訪問的點**，舉例來說，$u_{2}=8$ 表示點 2 是路徑中第 8 個被訪問的點；$u_{5}=3$ 表示點 5 是路徑中第 3 個被訪問的點。
 
-在 TSP 問題中，需要再加上以下三條限制式，也就是所謂的 MTZ 限制式：
+### Reward Discount Factor
+
+Suppose at step $t$, the agent executes an action and receives an immediate reward $r_t$. As stated above, we use $G_t$ to evaluate the quality of that action. However, if an episode is very long — spanning hundreds or even thousands of steps — actions taken far in the future may have little relation to the action taken now. Should we still consider all future rewards equally?
+
+To address this, reinforcement learning introduces the **reward discount factor** ($\gamma$), a floating-point number between 0 and 1 that represents how much we value future rewards:
+
 $$
-\begin{aligned}
-    &u_{1} = 1 \\\\
-    &2 \leq u_{i} \leq n \\\\
-    &u_{i} - u_{j} + nx_{ij} \leq n - 1
-\end{aligned}
+G_t = r_t + \gamma \, r_{t+1} + \gamma^2 \, r_{t+2} + \cdots = \sum_{k=0}^{T-t} \gamma^k \, r_{t+k}
 $$
 
-- $u_{1} = 1$ 表示點 1 是第 1 個被訪問的點，換句話說，點 1 就是起點。
-- $2 \leq u_{i} \leq n$ 是用來界定 $u_{i}$ 的範圍，$u_{i}$ 從 2 開始的原因是因為，我們已經處理完起點的部分了 (即 $u_{1} = 1$)。
-- $u_{i} - u_{j} + nx_{ij} \leq n - 1$: 
-  - 先將原式移項得 $u_{i} - u_{j} + 1 \leq n (1 - x_{ij})$，方便後續說明。
-  - 已知：$x_{ij} \in \{0,1\}$，若 $x_{ij}=1$，表示點 $i$ 到點 $j$ 有一條可行路徑，且順序為先經過點 $i$，再經過點 $j$，也就是 $u_{i} + 1 = u_{j}$。
-  - **Case 1: 點 $i$ 到點 $j$ 存在一條可行路徑**，代入限制式得：$$u_{i} - (u_{i}+1) + 1 \leq n (1-1) \Rightarrow 0 \leq 0$$
-  - **Case 2: 點 $i$ 到點 $j$ 之間沒有可行路徑**，代入限制式得：$$u_{i} - u_{j} + 1 \leq n (1-0) \Rightarrow u_{i} - u_{j} + 1 \leq n$$
-    - $u_{i} < u_{j}$，則 LHS 必 $\leq 0$，又 $0 \leq n$，故限制式恆成立。
-    - $u_{i} > u_{j}$，則 LHS 必 $\leq n-1$，又 $n-1 \leq n$，故限制式恆成立。
-        
-上面的說明有點抽象，舉個實際的例子可能比較好懂。假設經過最佳化求解之漢米爾頓路徑如下，圓圈內的數字表示編號：
-<br>
-![](/posts/shp-intro/shp-solution.png)
-<br>
+- If $\gamma = 1$: every future reward is treated as equally important.
+- If $\gamma = 0$: only the immediate reward at the current step is considered.
 
-由上圖之結果，最佳化求解後之路徑為 $1-8-6-7-10-9-2-3-4-5-11$，因此：
-$$
-\begin{aligned}
-&u_{1}=1, &x_{18}=1 \; \\\\
-&u_{2}=8, &x_{86}=1 \; \\\\
-&u_{3}=6, &x_{67}=1 \; \\\\
-&u_{4}=7, &x_{710}=1 \; \\\\
-&u_{5}=10, &x_{109}=1 \; \\\\
-&u_{6}=9, &x_{92}=1 \; \\\\
-&u_{7}=2, &x_{23}=1 \; \\\\
-&u_{8}=3, &x_{34}=1 \; \\\\
-&u_{9}=4, &x_{45}=1 \; \\\\
-&u_{10}=5, &x_{511}=1 \; \\\\
-&u_{11}=11
-\end{aligned}
-$$
+The smaller the $\gamma$, the more "short-sighted" the trained agent becomes. In practice, $\gamma$ is commonly set to **0.9**, **0.95**, or **0.99**.
 
-將以上的結果代入限制式，讀者可以嘗試看看，在違反限制式的情況下，就會產生子迴圈。
 
-## 延伸閱讀
-[最短漢米爾頓路徑問題 (II) - 使用 Google OR-Tools 實作](https://hackmd.io/MhrvcvzRRziumlRCMfm6FQ)
+## Conclusion
 
-<!-- ## 實際案例
-(一) 貪婪算法：求最短路徑
-![](https://hackmd.io/_uploads/SkuoTh4fT.png)
+That covers the fundamental concepts of reinforcement learning. Even at this introductory level, there is already quite a lot of ground to cover. Hopefully this article provides a solid foundation for understanding the RL literature and more advanced topics such as policy gradient methods, value function approximation, and modern actor-critic architectures.
 
-(二) 最短漢米爾頓路徑
-![](https://hackmd.io/_uploads/H1A86h4Ma.png) -->
+
+## Further Reading
+- Sutton, R. S., & Barto, A. G. (2018). *Reinforcement Learning: An Introduction* (2nd ed.). MIT Press.
+- [OpenAI Spinning Up — Introduction to RL](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html)

@@ -1,6 +1,7 @@
 ---
 title: A Time-Series Forecasting Model on Highway Traffic Volume and Speed
 date: 2024-10-07
+popularity: 80
 excerpt: This project has won an Honorable Mention in the 2024 Intelligence Transportation Management Competition, held by the National Freeway Bureau, Ministry of Transportation and Communications, Taiwan.
 cover: /project/highway-traffic-forecast/workflow.png
 cover_backdrop: false
