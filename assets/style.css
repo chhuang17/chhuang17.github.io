@@ -657,9 +657,21 @@ html[data-theme="dark"] .markdown-body .md-figure > img {
 @media (max-width: 920px){
   .about-grid{
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
-  .about-aside{ order: -1; } /* 手機時把照片卡放在上方 */
+  .about-aside{
+    order: -1; /* 手機時把照片卡放在上方 */
+    position: static; /* 取消 sticky，避免覆蓋文字 */
+    width: 100%;
+    max-width: 360px;
+    margin-inline: auto;
+  }
+  .about-photo {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+  }
 }
 
 
@@ -1162,9 +1174,21 @@ html[data-theme="dark"] .contact-card {
   }
   .about-grid {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
-  .about-aside { order: -1; }
+  .about-aside {
+    order: -1;
+    position: static;
+    width: 100%;
+    max-width: 360px;
+    margin-inline: auto;
+  }
+  .about-photo {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+  }
   .exp-item {
     grid-template-columns: 1fr;
   }
