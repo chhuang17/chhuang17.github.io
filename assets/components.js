@@ -27,7 +27,7 @@
     }).join('\n      ');
 
     const html = `
-    <a class="brand" href="/">Chien-Hao Huang</a>
+    <a class="brand" href="/">Will Huang</a>
     <nav class="nav">
       ${links}
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="切換主題">🌓</button>
@@ -43,7 +43,7 @@
   function renderFooter() {
     const footer = document.querySelector('.site-footer');
     if (footer) {
-      footer.innerHTML = '<p>© 2025 Chien-Hao Huang · Hosted on GitHub Pages</p>';
+      footer.innerHTML = '<p>© 2025–2026 Will Huang · Hosted on GitHub Pages</p>';
     }
   }
 
