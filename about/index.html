@@ -23,16 +23,15 @@
     <section class="about-grid">
       <article class="about-main markdown-body">
         <blockquote class="about-quote">
-          <p>I see machine learning as <em>system design</em>—not just modeling. Reliability, observability, and feedback loops matter as much as accuracy.</p>
+          <p>Good models answer questions. Great systems turn those answers into action. I focus on the infrastructure that makes data science actionable.</p>
         </blockquote>
 
-        <h2>From Engineering to Data</h2>
+        <h2>From Traffic Flows to Data Pipelines</h2>
         <p>
-          I didn't begin as a data scientist. My early training was in traffic engineering—where constraints and uncertainty
-          meet real-world operations. That background shaped how I reason about systems: how signals propagate, how
-          bottlenecks form, and how interventions ripple. When I discovered machine learning, I realized those instincts
-          carried over. Forecasting, optimization, and experimentation became the tools—and turning models into products
-          became the goal.
+          I didn't begin as a data scientist. My training started in traffic engineering—optimizing physical networks where reliability is non-negotiable. I spent my early career analyzing how systems fail under pressure—signal timing, bottleneck formation, cascading failures.
+        </p>
+        <p>
+          The deeper I worked with these systems, the more I realized that the core problems: <strong>forecasting demand</strong>, <strong>optimizing limited resources</strong>, and <strong>managing uncertainty</strong>, are universal. Today, I apply those same engineering principles to data science. I don't just train models; I build end-to-end ML systems that solve complex operational problems—from predicting supply chain returns to optimizing last-mile logistics. What drives me is seeing data evolve from analysis to action—and knowing the system I built made it possible.
         </p>
       </article>
 
@@ -49,7 +48,7 @@
 
     <!-- 左側虛線時間軸 + 右側卡片 -->
     <section class="about-full reveal">
-      <h2>Experience & Education</h2>
+      <h2>Experience</h2>
       <ol class="exp-timeline">
         <li class="exp-item">
           <div class="exp-left">
@@ -60,8 +59,9 @@
           <div class="exp-right">
             <h3 class="exp-title">Business Intelligence Engineer ・ GARMIN</h3>
             <ul>
-              <li>Develop and deploy ML models for demand forecasting and inventory optimization.</li>
-              <li>Integrate ML pipelines with business operations and monitoring.</li>
+              <li><strong>RMA Forecasting System</strong>: Owned technical development and productionization for multi-horizon return forecasting.</li>
+              <li><strong>MLOps Pipelines</strong>: Built automated retraining loops with Optuna and MLflow Model Registry integration.</li>
+              <li><strong>Production Reliability</strong>: Enabled dynamic model loading and drift monitoring for scalable inference.</li>
             </ul>
           </div>
         </li>
@@ -72,59 +72,94 @@
             <span class="exp-line"></span>
           </div>
           <div class="exp-right">
-            <h3 class="exp-title">Data Scientist ・ Gastom LPG E-Commerce</h3>
+            <h3 class="exp-title">Data Scientist ・ Gastom</h3>
             <ul>
-              <li>Built end-to-end ML systems for logistics optimization.</li>
-              <li>Implemented time-series forecasting to improve delivery efficiency.</li>
+              <li><strong>Logistics Optimization</strong>: Developed dynamic routing systems using Google OR-Tools under real-world constraints.</li>
+              <li><strong>Last-Mile Efficiency</strong>: Improved delivery scalability with custom clustering logic and ETA prediction models (XGBoost).</li>
             </ul>
           </div>
         </li>
         <li class="exp-item">
           <div class="exp-left">
             <span class="exp-dot"></span>
-            <span class="exp-time">Before 2023</span>
+            <span class="exp-time">Sep. 2022 – Jun. 2023</span>
             <span class="exp-line is-end"></span>
           </div>
           <div class="exp-right">
-            <h3 class="exp-title">Traffic Engineering (Professional Certificate)</h3>
+            <h3 class="exp-title">Transportation Engineer ・ CECI Engineering Consultants</h3>
             <ul>
-              <li>Optimization & simulation on transport systems; later transitioned to ML.</li>
+              <li><strong>Statistical Analysis</strong>: Evaluated traffic weight-in-motion (WIM) systems using Python and statistical testing.</li>
+              <li><strong>System Performance</strong>: Analyzed traffic flow data to assess infrastructure improvements for stakeholders.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Separate Education Section (Now using Timeline style) -->
+    <section class="about-full reveal">
+      <h2>Education</h2>
+      <ol class="exp-timeline">
+        <li class="exp-item">
+          <div class="exp-left">
+            <span class="exp-dot"></span>
+            <span class="exp-time">Sep. 2020 – Jun. 2022</span>
+            <span class="exp-line"></span>
+          </div>
+          <div class="exp-right">
+            <h3 class="exp-title">M.S. in Civil Engineering (Transportation Division) ・ National Taiwan University</h3>
+            <ul>
+              <li><strong>Thesis</strong>: Developed adaptive traffic signal control agents using <strong>Deep Reinforcement Learning (DDPG)</strong> and <strong>VISSIM</strong> simulation.</li>
+              <li><strong>Core Coursework</strong>: Machine Learning, Operations Research, Statistical Analysis.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="exp-item">
+          <div class="exp-left">
+            <span class="exp-dot"></span>
+            <span class="exp-time">Sep. 2017 – Jun. 2019</span>
+            <span class="exp-line is-end"></span>
+          </div>
+          <div class="exp-right">
+            <h3 class="exp-title">B.S. in Transportation Management ・ Tamkang University</h3>
+            <ul>
+              <li><strong>Foundations</strong>: Quantitative analysis, operations research, and programming based system design.</li>
             </ul>
           </div>
         </li>
       </ol>
     </section>
     
-    <!-- 下半段：全寬區塊（不再擠在左欄） -->
+    <!-- 下半段：全寬區塊 -->
+    <section class="about-full reveal">
+      <h2>Technical Impact</h2>
+      <ul class="metric-strip">
+        <li><span class="metric">Production</span><span class="label">End-to-End Pipelines</span></li>
+        <li><span class="metric">Lifecycle</span><span class="label">Automated Retraining</span></li>
+        <li><span class="metric">Optimization</span><span class="label">Constraint-Based Routing</span></li>
+        <li><span class="metric">Monitoring</span><span class="label">Data Drift Detection</span></li>
+      </ul>
+    </section>
+
     <section class="about-full reveal">
       <h2>Work Focus</h2>
       <div class="feature-grid">
         <article class="feature-card">
           <h3>RMA Return Forecasting</h3>
-          <p>Airflow + MLflow + Kubernetes pipeline for organization-wide forecasting. Measurable gains on key segments.</p>
-          <a class="feature-link" href="/projects/rma-forecasting/">Read project →</a>
+          <p>Airflow + MLflow + Kubernetes ecosystem for predictive modeling. Focus on automated pipelines and reproducible experiments.</p>
+          <a class="feature-link" href="#">Read summary →</a>
         </article>
         <article class="feature-card">
           <h3>MLOps & Monitoring</h3>
-          <p>Drift checks, alerting, retraining schedules, and deployment rails that keep models healthy in production.</p>
-          <a class="feature-link" href="/projects/mlops-monitoring/">See monitoring →</a>
+          <p>Drift detection, alerting, and retraining schedules. Ensuring model reliability in production environments.</p>
+          <a class="feature-link" href="#">See approach →</a>
         </article>
         <article class="feature-card">
-          <h3>Scaling Experiments</h3>
-          <p>From pilot SKUs to org-wide coverage. CI/CD and caching shortened retraining time and improved reliability.</p>
-          <a class="feature-link" href="/blog/scaling-prod-ml/">Scaling notes →</a>
+          <h3>Logistics Optimization</h3>
+          <p>Applying OR-Tools and clustering algorithms to solve real-world vehicle routing and scheduling problems.</p>
+          <a class="feature-link" href="#">Explore method →</a>
         </article>
       </div>
-    </section>
-
-    <section class="about-full reveal">
-      <h2>Selected Highlights</h2>
-      <ul class="metric-strip">
-        <li><span class="metric">10+</span><span class="label">Production models</span></li>
-        <li><span class="metric">↓</span><span class="label">Retraining lead time</span></li>
-        <li><span class="metric">12%</span><span class="label">WAPE improvement (key segments)</span></li>
-        <li><span class="metric">Org-wide</span><span class="label">Coverage scaled from pilots</span></li>
-      </ul>
     </section>
 
     <!-- Skills (tabs + chips) -->
