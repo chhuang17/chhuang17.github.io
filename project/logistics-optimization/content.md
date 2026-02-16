@@ -1,6 +1,7 @@
 ---
 title: Logistics & Route Optimization
 date: 2024-05-15
+popularity: 85
 excerpt: Solving Open VRP with custom spatio-temporal clustering and Google OR-Tools. Optimized for human-in-the-loop constraints.
 cover_backdrop: false
 ---
