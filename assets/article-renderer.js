@@ -126,7 +126,7 @@
       // Update page title from first h1
       if (holder) {
         var h1 = holder.querySelector('h1');
-        if (h1) document.title = h1.textContent + '｜Chien-Hao Huang';
+        if (h1) document.title = h1.textContent + '｜Will Huang';
       }
     } catch (e) {
       if (holder) {
