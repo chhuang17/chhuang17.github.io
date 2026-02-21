@@ -34,8 +34,10 @@ html[data-theme="dark"] {
 
 
 * { box-sizing: border-box; }
+html { overflow-x: hidden; }
 body {
 margin: 0;
+overflow-x: hidden;
 font-family:
   var(--font-ui),
   var(--font-cjk),
@@ -878,6 +880,8 @@ html[data-theme="light"] .exp-dot {
   margin:0 0 .5rem;
   font-family: var(--font-ui), var(--font-cjk), sans-serif;
   font-weight:800; letter-spacing:-.01em;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Metric strip（量化亮點） */
@@ -952,6 +956,7 @@ html[data-theme="light"] .exp-dot {
 
 .tabs .tablist{
   display:flex; gap:.6rem;
+  flex-wrap: wrap;
   border-bottom:1px solid var(--border);
   margin-bottom:.85rem;
 }
@@ -1019,6 +1024,17 @@ html[data-theme="light"] .exp-dot {
 }
 @media (max-width: 560px){
   .chip-grid.three{ grid-template-columns: 1fr; }
+  .tabs .tablist {
+    gap: .3rem;
+  }
+  .tabs .tablist label {
+    padding: .45rem .55rem .6rem;
+    font-size: .9rem;
+  }
+  .tabs .tablist label svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 /* Notion 風小卡（與範例一致：輕邊框+柔和圓角） */
