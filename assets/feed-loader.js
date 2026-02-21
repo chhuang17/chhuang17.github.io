@@ -140,7 +140,33 @@ function renderToolbar(feed, posts, basePath, defaultSort, enableCategoryFilter)
   var toolbar = document.createElement('div');
   toolbar.className = 'feed-toolbar';
 
-  /* ── Category filter ── */
+  /* ── Sort bar (left side) ── */
+  var sortBar = document.createElement('div');
+  sortBar.className = 'sort-bar';
+
+  var options = [
+    { value: 'newest',  label: 'Newest' },
+    { value: 'oldest',  label: 'Oldest' },
+    { value: 'popular', label: 'Popular' }
+  ];
+
+  options.forEach(function (opt) {
+    var btn = document.createElement('button');
+    btn.className = 'sort-btn' + (opt.value === defaultSort ? ' active' : '');
+    btn.textContent = opt.label;
+    btn.setAttribute('data-sort', opt.value);
+    btn.onclick = function () {
+      sortBar.querySelectorAll('.sort-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      _feedState.sort = opt.value;
+      renderCards(feed, posts, basePath, _feedState.sort, _feedState.category);
+    };
+    sortBar.appendChild(btn);
+  });
+
+  toolbar.appendChild(sortBar);
+
+  /* ── Category filter (right side) ── */
   if (enableCategoryFilter) {
     var categories = [];
     posts.forEach(function (p) {
@@ -184,31 +210,6 @@ function renderToolbar(feed, posts, basePath, defaultSort, enableCategoryFilter)
     }
   }
 
-  /* ── Sort bar ── */
-  var sortBar = document.createElement('div');
-  sortBar.className = 'sort-bar';
-
-  var options = [
-    { value: 'newest',  label: 'Newest' },
-    { value: 'oldest',  label: 'Oldest' },
-    { value: 'popular', label: 'Popular' }
-  ];
-
-  options.forEach(function (opt) {
-    var btn = document.createElement('button');
-    btn.className = 'sort-btn' + (opt.value === defaultSort ? ' active' : '');
-    btn.textContent = opt.label;
-    btn.setAttribute('data-sort', opt.value);
-    btn.onclick = function () {
-      sortBar.querySelectorAll('.sort-btn').forEach(function (b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      _feedState.sort = opt.value;
-      renderCards(feed, posts, basePath, _feedState.sort, _feedState.category);
-    };
-    sortBar.appendChild(btn);
-  });
-
-  toolbar.appendChild(sortBar);
   return toolbar;
 }
 
