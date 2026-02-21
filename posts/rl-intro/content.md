@@ -1,6 +1,8 @@
 ---
 title: Introduction to Reinforcement Learning
 date: 2024-09-12
+lang: en
+category: Tech
 popularity: 60
 excerpt: An introduction to reinforcement learning fundamentals — from Markov Decision Processes to reward discounting and algorithm taxonomy.
 cover: /posts/rl-intro/rl-workflow.jpg
