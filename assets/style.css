@@ -34,8 +34,10 @@ html[data-theme="dark"] {
 
 
 * { box-sizing: border-box; }
+html { overflow-x: hidden; }
 body {
 margin: 0;
+overflow-x: hidden;
 font-family:
   var(--font-ui),
   var(--font-cjk),
@@ -190,8 +192,11 @@ section { margin: 2rem 0; }
 /* Sort bar */
 .feed-toolbar {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   gap: .5rem;
+  flex-wrap: wrap;
   padding-bottom: .75rem;
   border-bottom: 1px solid var(--border);
 }
@@ -484,7 +489,7 @@ html[data-theme="dark"] .markdown-body img.no-backdrop {
 }
 .markdown-body code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: .95em;
+  font-size: .85em;
   background: color-mix(in srgb, var(--text) 8%, transparent);
   padding: .15em .35em;
   border-radius: .35em;
@@ -875,6 +880,8 @@ html[data-theme="light"] .exp-dot {
   margin:0 0 .5rem;
   font-family: var(--font-ui), var(--font-cjk), sans-serif;
   font-weight:800; letter-spacing:-.01em;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Metric strip（量化亮點） */
@@ -949,6 +956,7 @@ html[data-theme="light"] .exp-dot {
 
 .tabs .tablist{
   display:flex; gap:.6rem;
+  flex-wrap: wrap;
   border-bottom:1px solid var(--border);
   margin-bottom:.85rem;
 }
@@ -1016,6 +1024,17 @@ html[data-theme="light"] .exp-dot {
 }
 @media (max-width: 560px){
   .chip-grid.three{ grid-template-columns: 1fr; }
+  .tabs .tablist {
+    gap: .3rem;
+  }
+  .tabs .tablist label {
+    padding: .45rem .55rem .6rem;
+    font-size: .9rem;
+  }
+  .tabs .tablist label svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 /* Notion 風小卡（與範例一致：輕邊框+柔和圓角） */
@@ -1224,6 +1243,10 @@ html[data-theme="dark"] .contact-card {
   .photo-frame img {
     width: 100%;
     height: auto;
+  }
+  .feed-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
