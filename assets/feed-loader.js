@@ -1,6 +1,7 @@
 /**
  * Shared feed loader for Blog and Projects listing pages.
- * Supports sorting by date (newest/oldest) and popularity.
+ * Supports sorting by date (newest/oldest) and popularity,
+ * and category filtering with language badges.
  *
  * Usage:
  *   <script src="/assets/feed-loader.js"></script>
@@ -8,7 +9,8 @@
  *     loadFeed({
  *       slugs: ["shp-intro"],
  *       basePath: "/posts",       // or "/project"
- *       containerId: "post-list"
+ *       containerId: "post-list",
+ *       enableCategoryFilter: true // show category filter buttons
  *     });
  *   </script>
  */
@@ -39,6 +41,17 @@ function parseFrontMatter(md) {
   return { meta: meta, body: md };
 }
 
+function langBadgeHTML(lang) {
+  if (!lang) return '';
+  var label = lang.startsWith('zh') ? '中文' : 'EN';
+  return '<span class="lang-badge lang-' + (lang.startsWith('zh') ? 'zh' : 'en') + '">' + label + '</span>';
+}
+
+function categoryBadgeHTML(category) {
+  if (!category) return '';
+  return '<span class="cat-badge cat-' + category.toLowerCase() + '">' + category + '</span>';
+}
+
 async function loadPost(slug, basePath) {
   var resp = await fetch(basePath + '/' + slug + '/content.md');
   if (!resp.ok) return null;
@@ -61,10 +74,13 @@ async function loadPost(slug, basePath) {
   var excerpt    = meta.excerpt || '';
   var cover      = meta.cover || mdImg || '';
   var popularity = parseInt(meta.popularity, 10) || 0;
+  var lang       = meta.lang || '';
+  var category   = meta.category || '';
 
   return {
     slug: slug, title: title, date: date, dateRaw: dateRaw,
-    excerpt: excerpt, cover: cover, popularity: popularity
+    excerpt: excerpt, cover: cover, popularity: popularity,
+    lang: lang, category: category
   };
 }
 
@@ -75,10 +91,23 @@ function createCard(p, basePath) {
   card.tabIndex = 0;
   card.setAttribute('data-href', basePath + '/' + p.slug + '/');
 
+  var badges = '';
+  if (p.category || p.lang) {
+    badges = '<div class="post-badges">' +
+      categoryBadgeHTML(p.category) +
+      langBadgeHTML(p.lang) +
+    '</div>';
+  }
+
   card.innerHTML =
     '<div class="post-content">' +
       '<h3 class="post-title">' + p.title + '</h3>' +
-      (p.date ? '<div class="meta">' + p.date + '</div>' : '') +
+      (p.date || badges
+        ? '<div class="meta">' +
+            (p.date ? '<span>' + p.date + '</span>' : '') +
+            badges +
+          '</div>'
+        : '') +
       (p.excerpt ? '<p class="excerpt">' + p.excerpt + '</p>' : '') +
     '</div>' +
     (p.cover
@@ -104,9 +133,60 @@ function sortPosts(posts, mode) {
   return sorted;
 }
 
-function renderSortBar(feed, posts, basePath, defaultSort) {
-  var bar = document.createElement('div');
-  bar.className = 'sort-bar';
+/* ── Internal state for current filter/sort ── */
+var _feedState = {};
+
+function renderToolbar(feed, posts, basePath, defaultSort, enableCategoryFilter) {
+  var toolbar = document.createElement('div');
+  toolbar.className = 'feed-toolbar';
+
+  /* ── Category filter ── */
+  if (enableCategoryFilter) {
+    var categories = [];
+    posts.forEach(function (p) {
+      if (p.category && categories.indexOf(p.category) === -1) {
+        categories.push(p.category);
+      }
+    });
+    categories.sort();
+
+    if (categories.length > 0) {
+      var filterRow = document.createElement('div');
+      filterRow.className = 'filter-bar';
+
+      var allBtn = document.createElement('button');
+      allBtn.className = 'filter-btn active';
+      allBtn.textContent = 'All';
+      allBtn.setAttribute('data-cat', '');
+      allBtn.onclick = function () {
+        filterRow.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+        allBtn.classList.add('active');
+        _feedState.category = '';
+        renderCards(feed, posts, basePath, _feedState.sort, _feedState.category);
+      };
+      filterRow.appendChild(allBtn);
+
+      categories.forEach(function (cat) {
+        var btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.textContent = cat;
+        btn.setAttribute('data-cat', cat);
+        btn.onclick = function () {
+          filterRow.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          _feedState.category = cat;
+          renderCards(feed, posts, basePath, _feedState.sort, _feedState.category);
+        };
+        filterRow.appendChild(btn);
+      });
+
+      toolbar.appendChild(filterRow);
+    }
+  }
+
+  /* ── Sort bar ── */
+  var sortBar = document.createElement('div');
+  sortBar.className = 'sort-bar';
 
   var options = [
     { value: 'newest',  label: 'Newest' },
@@ -120,44 +200,56 @@ function renderSortBar(feed, posts, basePath, defaultSort) {
     btn.textContent = opt.label;
     btn.setAttribute('data-sort', opt.value);
     btn.onclick = function () {
-      bar.querySelectorAll('.sort-btn').forEach(function (b) { b.classList.remove('active'); });
+      sortBar.querySelectorAll('.sort-btn').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
-      renderCards(feed, posts, basePath, opt.value);
+      _feedState.sort = opt.value;
+      renderCards(feed, posts, basePath, _feedState.sort, _feedState.category);
     };
-    bar.appendChild(btn);
+    sortBar.appendChild(btn);
   });
 
-  return bar;
+  toolbar.appendChild(sortBar);
+  return toolbar;
 }
 
-function renderCards(feed, posts, basePath, sortMode) {
-  // Remove only cards, keep sort bar
+function renderCards(feed, posts, basePath, sortMode, categoryFilter) {
+  // Remove only cards, keep toolbar
   feed.querySelectorAll('.post-card').forEach(function (c) { c.remove(); });
 
-  var sorted = sortPosts(posts, sortMode);
+  var filtered = posts;
+  if (categoryFilter) {
+    filtered = posts.filter(function (p) { return p.category === categoryFilter; });
+  }
+
+  var sorted = sortPosts(filtered, sortMode);
   sorted.forEach(function (p) {
     feed.appendChild(createCard(p, basePath));
   });
 }
 
 async function loadFeed(opts) {
-  var slugs       = opts.slugs || [];
-  var basePath    = opts.basePath || '/posts';
-  var containerId = opts.containerId || 'post-list';
-  var defaultSort = opts.defaultSort || 'newest';
+  var slugs                = opts.slugs || [];
+  var basePath             = opts.basePath || '/posts';
+  var containerId          = opts.containerId || 'post-list';
+  var defaultSort          = opts.defaultSort || 'newest';
+  var enableCategoryFilter = opts.enableCategoryFilter || false;
 
   var feed = document.getElementById(containerId);
   if (!feed) return;
+
+  // Init state
+  _feedState.sort = defaultSort;
+  _feedState.category = '';
 
   // Load all posts in parallel
   var promises = slugs.map(function (slug) { return loadPost(slug, basePath); });
   var results = await Promise.all(promises);
   var posts = results.filter(function (p) { return p !== null; });
 
-  // Insert sort bar
-  var bar = renderSortBar(feed, posts, basePath, defaultSort);
-  feed.appendChild(bar);
+  // Insert toolbar (filter + sort)
+  var toolbar = renderToolbar(feed, posts, basePath, defaultSort, enableCategoryFilter);
+  feed.appendChild(toolbar);
 
   // Initial render
-  renderCards(feed, posts, basePath, defaultSort);
+  renderCards(feed, posts, basePath, defaultSort, '');
 }
