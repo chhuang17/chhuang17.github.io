@@ -1,6 +1,8 @@
 ---
 title: Shortest Hamiltonian Path
 date: 2024-09-14
+lang: en
+category: Tech
 popularity: 70
 excerpt: Mathematical formulation of the Shortest Hamiltonian Path problem, with TSP comparison and subtour elimination methods.
 cover: /posts/shp-intro/tsp.png
